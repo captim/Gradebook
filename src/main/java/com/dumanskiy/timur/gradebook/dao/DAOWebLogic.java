@@ -81,6 +81,19 @@ public class DAOWebLogic implements DAOConnection {
     }
 
     @Override
+    public void deleteTopic(int id) {
+        connect();
+        try {
+            statement = connection.prepareStatement("DELETE FROM TOPICS WHERE topicid = ?");
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+    @Override
     public List<Subject> selectGroupsSubjects(int groupId) {
         return null;
     }
@@ -98,6 +111,7 @@ public class DAOWebLogic implements DAOConnection {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException ignored) {
         }
     }
 }

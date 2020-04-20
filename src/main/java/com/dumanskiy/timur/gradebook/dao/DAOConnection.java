@@ -9,6 +9,7 @@ public interface DAOConnection {
     void connect();
     List<Subject> selectTeachersSubjects(int teacherId);
     void setSubjectsTopic(Subject subject);
+    void deleteTopic(int id);
     List<Subject> selectGroupsSubjects(int groupId);
     List<Topic> selectSubjectsTopic(int subjectId);
     void disconnect();

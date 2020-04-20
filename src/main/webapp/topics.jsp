@@ -17,20 +17,29 @@
     <title>Subject</title>
 </head>
 <body>
+<%
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    DAOConnection dao = context.getBean("dao", DAOConnection.class);
+    List<Subject> subjects = (List<Subject>) session.getAttribute("subjects");
+    Subject subject = subjects.get(Integer.parseInt(request.getParameter("id")) - 1);
+    dao.setSubjectsTopic(subject);
+    subject.getTopics().sort(new CompareTopicsByIndex());
+%>
     <script>
-        function deleteButton() {
-
+        var request = new XMLHttpRequest();
+        function deleteButton(id) {
+            if (confirm("Are you sure?")) {
+                var element = document.getElementById("topic_" + id);
+                element.parentNode.removeChild(element);
+                var url = "topic_utils.jsp?action=delete&id=" + id;
+                request.open("POST", url);
+                request.send();
+            }
         }
     </script>
-
-    <%
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        DAOConnection dao = context.getBean("dao", DAOConnection.class);
-        List<Subject> subjects = (List<Subject>) session.getAttribute("subjects");
-        Subject subject = subjects.get(Integer.parseInt(request.getParameter("id")) - 1);
-        dao.setSubjectsTopic(subject);
-        subject.getTopics().sort(new CompareTopicsByIndex());
-    %>
+    <%if (subject.getTopics().isEmpty()) {%>
+        <a2>There are not topics</a2>
+    <%} else {%>
     <table>
     <tr>
         <th>#</th>
@@ -38,12 +47,14 @@
         <th></th>
     </tr>
     <%for (Topic topic : subject.getTopics()) {%>
-    <tr>
+    <tr id='topic_<%=topic.getId()%>'>
         <td><%=topic.getIndex()%></td>
         <td><%=topic.getName()%></td>
-        <td><button id = '<%=topic.getId()%>' onclick="deleteButton()">Delete</button></td>
+        <td><button id = '<%=topic.getId()%>' onclick="deleteButton(this.id)">Delete</button></td>
     </tr>
     <%}%>
     </table>
+    <%}%>
+
 </body>
 </html>
