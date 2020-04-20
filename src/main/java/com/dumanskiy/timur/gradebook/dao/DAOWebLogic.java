@@ -84,13 +84,45 @@ public class DAOWebLogic implements DAOConnection {
     public void deleteTopic(int id) {
         connect();
         try {
-            statement = connection.prepareStatement("DELETE FROM TOPICS WHERE topicid = ?");
+                statement = connection.prepareStatement("DELETE FROM TOPICS WHERE topicid = ?");
             statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         disconnect();
+    }
+
+    @Override
+    public void addTopic(int subjectId, String topicName) {
+        int indexNumber = selectCountOfTopics(subjectId) + 1;
+        connect();
+        try {
+            statement = connection.prepareStatement("INSERT INTO TOPICS (SUBJECTID, INDEXNUMBER, TOPICNAME) VALUES (?, ?, ?)");
+            statement.setInt(1, subjectId);
+            statement.setInt(2,  indexNumber);
+            statement.setString(3, topicName);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+    private int selectCountOfTopics(int subjectId) {
+        connect();
+        int result = 0;
+        try {
+            statement = connection.prepareStatement("SELECT COUNT(*) FROM TOPICS WHERE SUBJECTID = ?");
+            statement.setInt(1, subjectId);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return result;
     }
 
     @Override

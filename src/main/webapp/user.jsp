@@ -16,8 +16,6 @@
         user = "Student";
     }
 %>
-<%--<h1>Hello, <security:authentication property="principal.username" /> </h1>
-<h3>You are <security:authorize access="hasRole('STUDENT')">student</security:authorize><security:authorize access="hasRole('TEACHER')">teacher</security:authorize></h3>--%>
 Hello, <%=user%>
 <%
     if (user.equals("Teacher")) {%>

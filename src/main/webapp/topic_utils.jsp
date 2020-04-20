@@ -1,11 +1,5 @@
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOConnection" %>
-<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %><%--
-  Created by IntelliJ IDEA.
-  User: Tim
-  Date: 20.04.2020
-  Time: 19:34
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,11 +8,15 @@
 <body>
     <%
         String action = request.getParameter("action");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        DAOConnection dao = context.getBean("dao", DAOConnection.class);
         if (action.equals("delete")) {
             int topicId = Integer.parseInt(request.getParameter("id"));
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-            DAOConnection dao = context.getBean("dao", DAOConnection.class);
             dao.deleteTopic(topicId);
+        } else if (action.equals("add")) {
+            int subjectId = Integer.parseInt(request.getParameter("subjectid"));
+            String topicName = request.getParameter("topicname");
+            dao.addTopic(subjectId, topicName);
         }
     %>
 </body>
