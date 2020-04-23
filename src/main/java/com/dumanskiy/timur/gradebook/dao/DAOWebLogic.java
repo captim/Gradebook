@@ -109,6 +109,11 @@ public class DAOWebLogic implements DAOConnection {
         disconnect();
     }
 
+    @Override
+    public void updateTopicIndex(Topic topic) {
+
+    }
+
     private int selectCountOfTopics(int subjectId) {
         connect();
         int result = 0;
@@ -123,16 +128,6 @@ public class DAOWebLogic implements DAOConnection {
         }
         disconnect();
         return result;
-    }
-
-    @Override
-    public List<Subject> selectGroupsSubjects(int groupId) {
-        return null;
-    }
-
-    @Override
-    public List<Topic> selectSubjectsTopic(int subjectId) {
-        return null;
     }
 
     @Override
