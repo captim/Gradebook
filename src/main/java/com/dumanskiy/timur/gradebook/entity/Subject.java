@@ -31,4 +31,13 @@ public class Subject {
     public void setTopics(List<Topic> topics) {
         this.topics = topics;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", topics=" + topics +
+                '}';
+    }
 }

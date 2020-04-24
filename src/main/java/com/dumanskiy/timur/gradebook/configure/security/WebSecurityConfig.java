@@ -13,15 +13,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @ComponentScan("com.dumanskiy.timur.gradebook")
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withDefaultPasswordEncoder().username("John").password("123").roles("TEACHER").build());
         manager.createUser(User.withDefaultPasswordEncoder().username("Timur").password("123").roles("STUDENT").build());
+        manager.createUser(User.withDefaultPasswordEncoder().username("John").password("123").roles("TEACHER").build());
         return manager;
     }
 

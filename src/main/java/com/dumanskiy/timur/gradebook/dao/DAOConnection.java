@@ -11,6 +11,7 @@ public interface DAOConnection {
     void setSubjectsTopic(Subject subject);
     void deleteTopic(int id);
     void addTopic(int subjectId, String topicName);
-    void updateTopicIndex(Topic topic);
+    void updateTopic(Topic topic);
+    void addSubject(String subjectName);
     void disconnect();
 }

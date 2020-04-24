@@ -24,4 +24,9 @@ public class TopicUtils {
         }
         return topics;
     }
+    public static void updateTopicsIndex(List<Topic> topics) {
+        for (int i = 0; i < topics.size(); i++) {
+            topics.get(i).setIndex(i + 1);
+        }
+    }
 }

@@ -4,16 +4,10 @@
 <%@ page import="com.dumanskiy.timur.gradebook.entity.utils.CompareTopicsByIndex" %>
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.dumanskiy.timur.gradebook.entity.utils.SubjectUtils" %>
+<%@ page import="org.apache.log4j.Logger" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    DAOConnection dao = context.getBean("dao", DAOConnection.class);
-    List<Subject> subjects = (List<Subject>) session.getAttribute("subjects");
-    Subject subject = subjects.get(Integer.parseInt(request.getParameter("id")) - 1);
-    dao.setSubjectsTopic(subject);
-    subject.getTopics().sort(new CompareTopicsByIndex());
-%>
 <head>
     <title>Subject</title>
 </head>
@@ -43,6 +37,20 @@
             }
         }
     </script>
+    <%
+        Logger logger = Logger.getLogger("topics.jsp");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        DAOConnection dao = context.getBean("dao", DAOConnection.class);
+        logger.debug("DAOConnection was received");
+        List<Subject> subjects = (List<Subject>) session.getAttribute("subjects");
+        logger.debug("Attribute \"subjects\" was received");
+        Subject subject = SubjectUtils.getSubjectById(subjects, Integer.parseInt(request.getParameter("id")));
+        logger.debug("Selected subject from subjects' list (subject = " + subject + ")");
+        subject.getTopics().sort(new CompareTopicsByIndex());
+        logger.debug("Subject's topics was sorted");
+        session.setAttribute("subject", subject);
+        logger.debug("In session added attribute \"subject\" (" + subject + ")");
+    %>
     <%if (subject.getTopics().isEmpty()) {%>
         <a2>There are not topics</a2>
     <%} else {%>
