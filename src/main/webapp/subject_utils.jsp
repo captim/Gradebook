@@ -26,6 +26,19 @@
             logger.debug("SubjectName = " + subjectName);
             dao.addSubject(subjectName);
             logger.info("Added new subject ( subjectName = " + subjectName + ")");
+        } else if (action.equals("addGroupToSubject")) {
+            logger.debug("Action \"addGroupToSubject\" was received");
+            logger.debug("groupId = " + request.getParameter("groupId"));
+            logger.debug("subjectId = " + request.getParameter("subjectId"));
+            if (request.getParameter("groupId").equals("0")) {
+                logger.debug("User select nothing in group selector");
+                return;
+            }
+            int groupId = Integer.parseInt(request.getParameter("groupId"));
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+            if (!dao.isGroupLearnSubject(subjectId, groupId)) {
+                dao.addNewSubjectToLearn(subjectId, groupId);
+            }
         }
     %>
 </body>

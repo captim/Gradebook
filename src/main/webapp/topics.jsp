@@ -6,6 +6,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.utils.SubjectUtils" %>
 <%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="com.dumanskiy.timur.gradebook.entity.Group" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -30,11 +31,20 @@
         function addTopic(subjectId) {
             var newTopicName = document.getElementById("topicName").value;
             if (newTopicName) {
-                var url = "topic_utils.jsp?action=add&subjectid=" + subjectId + "&topicname=" + newTopicName;
+                var url = "topic_utils.jsp?action=add&subjectId=" + subjectId + "&topicName=" + newTopicName;
                 request.open("POST", url);
                 request.send();
                 document.getElementById("addTopicForm").style.display = "none";
             }
+        }
+        function selectGroup() {
+                document.getElementById("addGroupButton").style.display = "block";
+        }
+        function addGroupToSubject(subjectId) {
+            var groupId = document.getElementById("selectedGroup").value;
+            var url = "subject_utils.jsp?action=addGroupToSubject&groupId=" + groupId + "&subjectId=" + subjectId;
+            request.open("POST", url);
+            request.send();
         }
     </script>
     <%
@@ -51,28 +61,79 @@
         session.setAttribute("subject", subject);
         logger.debug("In session added attribute \"subject\" (" + subject + ")");
     %>
-    <%if (subject.getTopics().isEmpty()) {%>
+    <%
+        if (subject.getTopics().isEmpty()) {
+    %>
         <a2>There are not topics</a2>
-    <%} else {%>
+    <%
+        } else {
+    %>
     <table>
     <tr>
         <th>#</th>
         <th>Name</th>
         <th></th>
     </tr>
-    <%for (Topic topic : subject.getTopics()) {%>
+    <%
+        for (Topic topic : subject.getTopics()) {
+    %>
     <tr id='topic_<%=topic.getId()%>'>
         <td><%=topic.getIndex()%></td>
         <td><%=topic.getName()%></td>
         <td><button id = '<%=topic.getId()%>' onclick="deleteTopic(this.id)">Delete</button></td>
     </tr>
-    <%}%>
+    <%
+        }
+    %>
     </table>
-    <%}%>
-    <input id="addTopicButton" type="button" value="Add new topic" onclick="showAddTopicForm()"/>
+    <%
+        }
+    %>
+    <input id="showTopicButton" type="button" value="Add new topic" onclick="showAddTopicForm()"/>
     <form id="addTopicForm" style="display: none">
         <a1>Topic's name:</a1><input id="topicName" type="text"/>
         <input type="button" value="Add" onclick="addTopic(<%=subject.getId()%>)">
     </form>
+    <%
+        List<Group> groupsThatTeachSubject = dao.groupsThatTeachSubject(subject);
+        if (groupsThatTeachSubject.isEmpty()) {
+    %>
+        <br/>No one is studying this subject
+    <%
+        }else {
+    %>
+        Groups that teach this subject:
+    <%
+        for (Group group: groupsThatTeachSubject) {%>
+        <a1 id='<%=group.getGroupId()%>'><%=group.getGroupName()%></a1>
+    <%}
+    }
+        List<Group> groupsThatDontTeachSubject = dao.getAllGroups();
+        groupsThatDontTeachSubject.removeAll(groupsThatTeachSubject);
+        logger.debug("Groups that don't teach subject (id = " + subject.getId() + ") - " + groupsThatDontTeachSubject);
+        if (groupsThatDontTeachSubject.isEmpty()) {%>
+        <div>You cant add new group</div>
+    <%} else {
+    %>
+    <div>Add group:</div>
+    <select id="selectedGroup" onchange="selectGroup()">
+        <option id="startOption" value='0'></option>
+    <%
+        for (Group group: groupsThatDontTeachSubject) {
+    %>
+        <option value='<%=group.getGroupId()%>'>
+            <%=group.getGroupName()%>
+        </option>
+
+    </select>
+    <input type="button" id="addGroupButton" style="display: none" value="Add group" onclick="addGroupToSubject(<%=subject.getId()%>)">
+
+    <%}
+    }%>
+    <a3>Groups' marks</a3>
+    <%
+        for (Group group: groupsThatTeachSubject) {%>
+            <a href='marks?groupId=<%=group.getGroupId()%>&subjectId=<%=subject.getId()%>'><%=group.getGroupName()%></a>
+    <%}%>
 </body>
 </html>

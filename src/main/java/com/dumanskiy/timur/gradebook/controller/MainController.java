@@ -1,7 +1,6 @@
 package com.dumanskiy.timur.gradebook.controller;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
@@ -14,12 +13,6 @@ public class MainController {
         return "user";
     }
 
-    @RequestMapping(value="/hello")
-    public String hello() {
-        logger.info("Redirect on hello.jsp");
-        return "hello";
-    }
-
     @RequestMapping(value="/subjects")
     public String subjects() {
         logger.info("Redirect on subjects.jsp");
@@ -30,5 +23,10 @@ public class MainController {
     public String subject() {
         logger.info("Redirect on topics.jsp");
         return "topics";
+    }
+    @RequestMapping(value="/marks")
+    public String marks() {
+        logger.info("Redirect on marks.jsp");
+        return "marks";
     }
 }

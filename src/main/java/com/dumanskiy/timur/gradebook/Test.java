@@ -10,7 +10,7 @@ public class Test {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         DAOConnection dao = context.getBean("dao", DAOConnection.class);
-        List<Subject> subjects = dao.selectTeachersSubjects(1);
+        List<Subject> subjects = dao.getTeachersSubjects(1);
         for (int i = 0; i < subjects.size(); i++) {
             System.out.println(subjects.get(i));
         }

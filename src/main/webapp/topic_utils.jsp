@@ -22,11 +22,12 @@
             logger.debug("TopicId = " + topicId);
             dao.deleteTopic(topicId);
             Subject subject = (Subject) session.getAttribute("subject");
-            logger.debug("Attribute \"subject\" was received");
+            logger.debug("Attribute \"subject\" was received (" + subject + ")");
             List<Topic> topics = subject.getTopics();
             for (Topic topic: topics) {
                 if (topic.getId() == topicId) {
                     topics.remove(topic);
+                    logger.debug(topic + " was removed from topics' list in subject");
                 }
             }
             TopicUtils.updateTopicsIndex(topics);
@@ -35,11 +36,13 @@
             }
         } else if (action.equals("add")) {
             logger.debug("Action \"add\" was received");
-            int subjectId = Integer.parseInt(request.getParameter("subjectid"));
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
             logger.debug("SubjectId = " + subjectId);
-            String topicName = request.getParameter("topicname");
+            String topicName = request.getParameter("topicName");
             logger.debug("TopicName = " + topicName);
             dao.addTopic(subjectId, topicName);
+            Subject subject = (Subject)session.getAttribute("subject");
+            subject.setTopics(dao.getSubjectTopics(subjectId));
         }
     %>
 </body>
