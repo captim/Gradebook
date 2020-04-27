@@ -65,14 +65,14 @@ public class DAOWebLogic implements DAOConnection {
         logger.debug("Subjects received(" + subjects + ")");
         disconnect();
         for (Subject subject: subjects) {
-            subject.setTopics(getSubjectTopics(subject.getId()));
+            subject.setTopics(getTopicsBySubjectId(subject.getId()));
         }
         logger.debug("Subjects' topics was added to objects");
         return subjects;
     }
 
     @Override
-    public Subject getSubject(int subjectId) {
+    public Subject getSubjectById(int subjectId) {
         connect();
         Subject subject = null;
         try {
@@ -85,12 +85,32 @@ public class DAOWebLogic implements DAOConnection {
             e.printStackTrace();
         }
         disconnect();
-        subject.setTopics(getSubjectTopics(subjectId));
+        subject.setTopics(getTopicsBySubjectId(subjectId));
         return subject;
     }
 
     @Override
-    public List<Mark> marksForThisSubject(int subjectId, int studentId) {
+    public Subject getSubjectByTopicId(int topicId) {
+        connect();
+        Subject subject = null;
+        try {
+            logger.debug("Try to select subject by topicId (topicId = " + topicId + ")");
+            statement = connection.prepareStatement("SELECT SUBJECTS.* " +
+                    "FROM LAB3_SUBJECTS SUBJECTS, LAB3_TOPICS TOPICS " +
+                    "WHERE TOPICS.SUBJECTID = SUBJECTS.SUBJECTID AND TOPICS.TOPICID = ?");
+            statement.setInt(1, topicId);
+            resultSet = statement.executeQuery();
+            subject = SubjectUtils.getSubjectsFromResultSet(resultSet).get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        subject.setTopics(getTopicsBySubjectId(subject.getId()));
+        return subject;
+    }
+
+    @Override
+    public List<Mark> getMarks(int subjectId, int studentId) {
         connect();
         List<Mark> marks = new ArrayList<>();
         try {
@@ -109,7 +129,7 @@ public class DAOWebLogic implements DAOConnection {
     }
 
     @Override
-    public List<Topic> getSubjectTopics(int subjectId) {
+    public List<Topic> getTopicsBySubjectId(int subjectId) {
         connect();
         List<Topic> topics = new ArrayList<>();
         try {
@@ -246,12 +266,12 @@ public class DAOWebLogic implements DAOConnection {
         }
         disconnect();
         logger.debug("Group: " + group);
-        group.setStudents(getStudents(groupId));
+        group.setStudents(getStudentsByGroupId(groupId));
         return group;
     }
 
     @Override
-    public List<Student> getStudents(int groupId) {
+    public List<Student> getStudentsByGroupId(int groupId) {
         connect();
         List<Student> result = new ArrayList<>();
         try {

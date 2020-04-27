@@ -52,14 +52,10 @@
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         DAOConnection dao = context.getBean("dao", DAOConnection.class);
         logger.debug("DAOConnection was received");
-        List<Subject> subjects = (List<Subject>) session.getAttribute("subjects");
-        logger.debug("Attribute \"subjects\" was received");
-        Subject subject = SubjectUtils.getSubjectById(subjects, Integer.parseInt(request.getParameter("id")));
+        Subject subject = dao.getSubjectById(Integer.parseInt(request.getParameter("id")));
         logger.debug("Selected subject from subjects' list (subject = " + subject + ")");
         subject.getTopics().sort(new CompareTopicsByIndex());
         logger.debug("Subject's topics was sorted");
-        session.setAttribute("subject", subject);
-        logger.debug("In session added attribute \"subject\" (" + subject + ")");
     %>
     <%
         if (subject.getTopics().isEmpty()) {

@@ -34,8 +34,6 @@
         if (subjects.isEmpty()) {%>
     You have not subjects.
         <%}
-        session.setAttribute("subjects", subjects);
-        logger.debug("In session added attribute \"subjects\" (" + subjects + ")");
         for (int i = 0; i < subjects.size(); i++) { %>
             <a href="topics?id=<%=subjects.get(i).getId()%>"><%=subjects.get(i).getName()%></a><br>
       <%}%>

@@ -20,10 +20,8 @@
             logger.debug("Action \"delete\" was received");
             int topicId = Integer.parseInt(request.getParameter("id"));
             logger.debug("TopicId = " + topicId);
+            List<Topic> topics = dao.getSubjectByTopicId(topicId).getTopics();
             dao.deleteTopic(topicId);
-            Subject subject = (Subject) session.getAttribute("subject");
-            logger.debug("Attribute \"subject\" was received (" + subject + ")");
-            List<Topic> topics = subject.getTopics();
             for (Topic topic: topics) {
                 if (topic.getId() == topicId) {
                     topics.remove(topic);
@@ -41,8 +39,6 @@
             String topicName = request.getParameter("topicName");
             logger.debug("TopicName = " + topicName);
             dao.addTopic(subjectId, topicName);
-            Subject subject = (Subject)session.getAttribute("subject");
-            subject.setTopics(dao.getSubjectTopics(subjectId));
         }
     %>
 </body>

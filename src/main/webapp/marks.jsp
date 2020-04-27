@@ -30,7 +30,7 @@
         int subjectId = Integer.parseInt(subjectIdStr);
         int groupId = Integer.parseInt(groupIdStr);
         Group group = dao.getGroup(groupId);
-        Subject subject = dao.getSubject(subjectId);
+        Subject subject = dao.getSubjectById(subjectId);
         subject.getTopics().sort(new CompareTopicsByIndex());
         logger.debug("Going to print marks");
         logger.debug("Group: " + group);

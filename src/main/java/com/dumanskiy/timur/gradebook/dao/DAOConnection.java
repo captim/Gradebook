@@ -7,9 +7,10 @@ import java.util.List;
 public interface DAOConnection {
     void connect();
     List<Subject> getTeachersSubjects(int teacherId);
-    Subject getSubject(int subjectId);
-    List<Mark> marksForThisSubject(int subjectId, int studentId);
-    List<Topic> getSubjectTopics(int subject);
+    Subject getSubjectById(int subjectId);
+    Subject getSubjectByTopicId(int topicId);
+    List<Mark> getMarks(int subjectId, int studentId);
+    List<Topic> getTopicsBySubjectId(int subject);
     void deleteTopic(int id);
     void addTopic(int subjectId, String topicName);
     void updateTopic(Topic topic);
@@ -17,7 +18,7 @@ public interface DAOConnection {
     List<Group> groupsThatTeachSubject(Subject subject);
     List<Group> getAllGroups();
     Group getGroup(int groupId);
-    List<Student> getStudents(int groupId);
+    List<Student> getStudentsByGroupId(int groupId);
     void addNewSubjectToLearn(int subjectId, int groupId);
     boolean isGroupLearnSubject(int subjectId, int groupId);
     void disconnect();
