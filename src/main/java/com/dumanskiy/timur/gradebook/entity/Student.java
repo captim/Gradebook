@@ -49,5 +49,13 @@ public class Student {
         this.groupId = groupId;
     }
 
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", groupId=" + groupId +
+                '}';
+    }
 }

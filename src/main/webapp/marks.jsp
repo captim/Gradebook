@@ -1,12 +1,9 @@
 <%@ page import="org.apache.log4j.Logger" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOConnection" %>
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.Student" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.Subject" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.utils.CompareTopicsByIndex" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.Group" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.Topic" %><%--
+<%@ page import="com.dumanskiy.timur.gradebook.entity.*" %><%--
   Created by IntelliJ IDEA.
   User: Tim
   Date: 25.04.2020
@@ -43,11 +40,16 @@
         for (int i = 0; i < subject.getTopics().size(); i++) {
             Topic topic = subject.getTopics().get(i);
         %>
-            <th><%=i + ") " + topic.getName()%></th>
-        <%}%>
+            <th><%=(i + 1) + ") " + topic.getName()%></th>
+        <%}
+        %>
         </tr>
+        <%
+            for (Student student : group.getStudents()) {
+                List<Mark> marks = dao.getMarks(subjectId, student.getUserId());
 
-
+            }
+        %>
 
     </table>
 </body>

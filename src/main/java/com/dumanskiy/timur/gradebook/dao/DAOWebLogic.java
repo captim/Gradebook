@@ -125,6 +125,7 @@ public class DAOWebLogic implements DAOConnection {
             e.printStackTrace();
         }
         disconnect();
+        logger.debug(marks);
         return marks;
     }
 

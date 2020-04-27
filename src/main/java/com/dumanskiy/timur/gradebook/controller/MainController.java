@@ -1,12 +1,13 @@
 package com.dumanskiy.timur.gradebook.controller;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
     final static Logger logger = Logger.getLogger(MainController.class);
-    //@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT')")
     @RequestMapping(value={"/user", "/"})
     public String user() {
         logger.info("Redirect on user.jsp");
