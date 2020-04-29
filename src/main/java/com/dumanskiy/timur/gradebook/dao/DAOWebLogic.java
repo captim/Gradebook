@@ -3,6 +3,8 @@ package com.dumanskiy.timur.gradebook.dao;
 import com.dumanskiy.timur.gradebook.entity.*;
 import com.dumanskiy.timur.gradebook.entity.utils.*;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.naming.Context;
@@ -17,26 +19,27 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 @Component("dao")
-public class DAOWebLogic implements DAOConnection {
-
+@PropertySource("classpath:resources.properties")
+public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
+        DAOSubjectUtils, DAOTopicUtils, DAOUserUtils {
     private Connection connection;
     private PreparedStatement statement;
     private ResultSet resultSet;
     private static Logger logger = Logger.getLogger(DAOWebLogic.class);
-
+    @Value("${gradeBook.dataSource.JNDIName}")
+    private String dataSourceName;
+    @Value("${gradeBook.dataSource.URL}")
+    private String file;
     @Override
     public void connect() {
         logger.trace("Try to connect to weblogic DB");
         String sp = "weblogic.jndi.WLInitialContextFactory";
-        String file = "t3://localhost:7001";
-        String dataSourceName = "TimurDataSource";
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, sp);
         env.put(Context.PROVIDER_URL, file);
-        Context ctx = null;
         DataSource ds = null;
         try {
-            ctx = new InitialContext(env);
+            Context ctx = new InitialContext(env);
             ds = (DataSource) ctx.lookup(dataSourceName);
         } catch (NamingException e) {
             e.printStackTrace();
@@ -67,7 +70,7 @@ public class DAOWebLogic implements DAOConnection {
         for (Subject subject: subjects) {
             subject.setTopics(getTopicsBySubjectId(subject.getId()));
         }
-        logger.debug("Subjects' topics was added to objects");
+        logger.debug("Subjects' topics were added to objects");
         return subjects;
     }
 
@@ -145,6 +148,22 @@ public class DAOWebLogic implements DAOConnection {
         disconnect();
         logger.debug(topics);
         return topics;
+    }
+
+    @Override
+    public List<UserInfo> getUsers() {
+        connect();
+        List<UserInfo> userInfos = new ArrayList<>();
+        try {
+            logger.debug("Try to get all users");
+            statement = connection.prepareStatement("SELECT * FROM LAB3_USERS_INFO");
+            resultSet = statement.executeQuery();
+            userInfos = UserUtils.getUsersFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return userInfos;
     }
 
     @Override

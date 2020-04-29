@@ -1,6 +1,5 @@
 package com.dumanskiy.timur.gradebook.entity.utils;
 
-import com.dumanskiy.timur.gradebook.entity.Subject;
 import com.dumanskiy.timur.gradebook.entity.Topic;
 
 import java.sql.ResultSet;

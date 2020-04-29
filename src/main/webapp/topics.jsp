@@ -7,6 +7,7 @@
 <%@ page import="com.dumanskiy.timur.gradebook.entity.utils.SubjectUtils" %>
 <%@ page import="org.apache.log4j.Logger" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.Group" %>
+<%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,7 +20,7 @@
             if (confirm("Are you sure?")) {
                 var element = document.getElementById("topic_" + id);
                 element.parentNode.removeChild(element);
-                var url = "topic_utils.jsp?action=delete&id=" + id;
+                var url = "topic_utils?action=delete&id=" + id;
                 request.open("POST", url);
                 request.send();
             }
@@ -31,7 +32,7 @@
         function addTopic(subjectId) {
             var newTopicName = document.getElementById("topicName").value;
             if (newTopicName) {
-                var url = "topic_utils.jsp?action=add&subjectId=" + subjectId + "&topicName=" + newTopicName;
+                var url = "topic_utils?action=add&subjectId=" + subjectId + "&topicName=" + newTopicName;
                 request.open("POST", url);
                 request.send();
                 document.getElementById("addTopicForm").style.display = "none";
@@ -42,7 +43,7 @@
         }
         function addGroupToSubject(subjectId) {
             var groupId = document.getElementById("selectedGroup").value;
-            var url = "subject_utils.jsp?action=addGroupToSubject&groupId=" + groupId + "&subjectId=" + subjectId;
+            var url = "subject_utils?action=addGroupToSubject&groupId=" + groupId + "&subjectId=" + subjectId;
             request.open("POST", url);
             request.send();
         }
@@ -50,7 +51,7 @@
     <%
         Logger logger = Logger.getLogger("topics.jsp");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        DAOConnection dao = context.getBean("dao", DAOConnection.class);
+        DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
         logger.debug("DAOConnection was received");
         Subject subject = dao.getSubjectById(Integer.parseInt(request.getParameter("id")));
         logger.debug("Selected subject from subjects' list (subject = " + subject + ")");
@@ -87,7 +88,7 @@
     %>
     <input id="showTopicButton" type="button" value="Add new topic" onclick="showAddTopicForm()"/>
     <form id="addTopicForm" style="display: none">
-        <a1>Topic's name:</a1><input id="topicName" type="text"/>
+        Topic's name:<input id="topicName" type="text"/>
         <input type="button" value="Add" onclick="addTopic(<%=subject.getId()%>)">
     </form>
     <%

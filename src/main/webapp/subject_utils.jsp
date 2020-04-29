@@ -1,7 +1,8 @@
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOConnection" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.Subject" %>
-<%@ page import="org.apache.log4j.Logger" %><%--
+<%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %><%--
   Created by IntelliJ IDEA.
   User: Tim
   Date: 24.04.2020
@@ -18,7 +19,7 @@
         Logger logger = Logger.getLogger("subject_utils.jsp");
         String action = request.getParameter("action");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        DAOConnection dao = context.getBean("dao", DAOConnection.class);
+        DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
         logger.debug("DAOConnection was received");
         if (action.equals("add")) {
             logger.debug("Action \"add\" was received");

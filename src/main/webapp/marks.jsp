@@ -3,7 +3,8 @@
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.utils.CompareTopicsByIndex" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.*" %><%--
+<%@ page import="com.dumanskiy.timur.gradebook.entity.*" %>
+<%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %><%--
   Created by IntelliJ IDEA.
   User: Tim
   Date: 25.04.2020
@@ -19,7 +20,7 @@
     <%
         Logger logger = Logger.getLogger("marks.jsp");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        DAOConnection dao = context.getBean("dao", DAOConnection.class);
+        DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
         logger.debug("DAOConnection was received");
         String subjectIdStr = request.getParameter("subjectId");
         String groupIdStr = request.getParameter("groupId");

@@ -9,9 +9,9 @@
 </head>
 <body>
     <%
-        Principal user = request.getUserPrincipal();
+        Principal userInfo = request.getUserPrincipal();
     %>
-Hello, <%=user.getName()%>
+Hello, <%=userInfo.getName()%>
 <security:authorize access="hasRole('TEACHER')">
     <a href="subjects?as=teacher">Show Subjects</a>
 </security:authorize>
