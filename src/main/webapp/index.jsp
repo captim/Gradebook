@@ -1,7 +1,7 @@
 <html>
 <body>
 <%
-    response.sendRedirect("userInfo");
+    response.sendRedirect("user");
 %>
 </body>
 </html>

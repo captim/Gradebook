@@ -3,19 +3,31 @@ package com.dumanskiy.timur.gradebook.controller;
 import com.dumanskiy.timur.gradebook.dao.DAOWebLogic;
 import com.dumanskiy.timur.gradebook.entity.Topic;
 import com.dumanskiy.timur.gradebook.entity.utils.TopicUtils;
+import netscape.security.Principal;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
+@ComponentScan(basePackages = "com.dumanskiy.timur.gradebook.dao")
 @Controller
 public class MainController {
     private static Logger logger = Logger.getLogger(MainController.class);
+    //ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    private final DAOWebLogic dao;// = context.getBean("dao", DAOWebLogic.class);
+
+    public MainController(DAOWebLogic dao) {
+        this.dao = dao;
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT')")
     @RequestMapping(value={"/user", "/"})
@@ -47,41 +59,59 @@ public class MainController {
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     @RequestMapping(value = "/subject_utils", method = RequestMethod.POST)
-    public void subjectUtils(@RequestParam String action, @RequestParam(required = false) String subjectName,
-                             @RequestParam(required = false) int groupId, @RequestParam(required = false) int subjectId) {
-        logger.info("Request to subject_utils.jsp");
+    @ResponseBody
+    public String subjectUtils(@RequestParam String action, @RequestParam(required = false) String subjectName,
+                             @RequestParam(required = false) String groupId, @RequestParam(required = false) String subjectId) {
+        logger.info("Request to subject_utils");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
         logger.debug("DAOConnection was received");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (action.equals("add")) {
             logger.debug("Action \"add\" was received");
             logger.debug("SubjectName = " + subjectName);
-            dao.addSubject(subjectName);
+            dao.addSubject(subjectName, dao.getIdByUsername(authentication.getName()));
             logger.info("Added new subject ( subjectName = " + subjectName + ")");
+            return "Subject was added";
         } else if (action.equals("addGroupToSubject")) {
+            if (!dao.isHeTeachSubject(authentication.getName(), Integer.parseInt(subjectId))) {
+                logger.debug("User have not permission to change this subject");
+                return "Subject doesn't change (you have not permission to change this subject)";
+            }
             logger.debug("Action \"addGroupToSubject\" was received");
             logger.debug("subjectId = " + subjectId + ", groupId = " + groupId);
-            if (!dao.isGroupLearnSubject(subjectId, groupId)) {
-                dao.addNewSubjectToLearn(subjectId, groupId);
+            if (!dao.isGroupLearnSubject(Integer.parseInt(subjectId), Integer.parseInt(groupId))) {
+                dao.addNewSubjectToLearn(Integer.parseInt(subjectId), Integer.parseInt(groupId));
+                return "Group was added";
+            } else {
+                return "Group already learn this subject. Reload page please.";
             }
+        } else {
+            return "Unexpected action";
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
     @RequestMapping(value = "/topic_utils", method = RequestMethod.POST)
-    public void topicUtils(@RequestParam String action, @RequestParam(required = false) int topicId,
-                           @RequestParam(required = false) int subjectId, @RequestParam(required = false) String topicName) {
-        logger.info("Request to topic_utils.jsp");
-        Logger logger = Logger.getLogger("topic_utils.jsp");
+    @ResponseBody
+    public String topicUtils(@RequestParam String action, @RequestParam(required = false) String topicId,
+                           @RequestParam(required = false) String subjectId, @RequestParam(required = false) String topicName) {
+        logger.info("Request to topic_utils");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
+
         if (action.equals("delete")) {
+            if (!dao.isHeTeachSubject(authentication.getName(), dao.getSubjectByTopicId(Integer.parseInt(topicId)).getId())) {
+                logger.debug("User have not permission to change this subject");
+                return "Subject doesn't change (you have not permission to change this subject)";
+            }
             logger.debug("Action \"delete\" was received");
             logger.debug("TopicId = " + topicId);
-            List<Topic> topics = dao.getSubjectByTopicId(topicId).getTopics();
-            dao.deleteTopic(topicId);
+            List<Topic> topics = dao.getSubjectByTopicId(Integer.parseInt(topicId)).getTopics();
+            dao.deleteTopic(Integer.parseInt(topicId));
             for (Topic topic: topics) {
-                if (topic.getId() == topicId) {
+                if (topic.getId() == Integer.parseInt(topicId)) {
                     topics.remove(topic);
                     logger.debug(topic + " was removed from topics' list in subject");
                 }
@@ -90,11 +120,43 @@ public class MainController {
             for (Topic topic: topics) {
                 dao.updateTopic(topic);
             }
+            return "Topic was deleted";
         } else if (action.equals("add")) {
+            if (!dao.isHeTeachSubject(authentication.getName(), dao.getSubjectById(Integer.parseInt(subjectId)).getId())) {
+                logger.debug("User have not permission to change this subject");
+                return "Subject doesn't change (you have not permission to change this subject)";
+            }
             logger.debug("Action \"add\" was received");
             logger.debug("SubjectId = " + subjectId);
             logger.debug("TopicName = " + topicName);
-            dao.addTopic(subjectId, topicName);
+            dao.addTopic(Integer.parseInt(subjectId), topicName);
+            return "Topic was added";
+        } else {
+            return "Unexpected action";
+        }
+    }
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @RequestMapping(value = "/mark_utils", method = RequestMethod.POST)
+    @ResponseBody
+    public String markUtils(@RequestParam String changedMark, @RequestParam String value, @RequestParam String subjectId) {
+        logger.info("Request to mark_utils");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!dao.isHeTeachSubject(authentication.getName(), Integer.parseInt(subjectId))) {
+            logger.debug("User have not permission to change this marks");
+            return "Mark doesn't change (you have not permission to change this marks)";
+        }
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
+        String[] requestParameters = changedMark.split("_");
+        int studentId = Integer.parseInt(requestParameters[0]);
+        int topicId = Integer.parseInt(requestParameters[1]);
+        int mark = Integer.parseInt(value);
+        if (dao.thisMarkExist(studentId, topicId)) {
+            dao.updateMark(studentId, topicId, mark);
+            return "Mark changed";
+        } else {
+            dao.addMark(studentId, topicId, mark);
+            return "Mark created";
         }
     }
 }

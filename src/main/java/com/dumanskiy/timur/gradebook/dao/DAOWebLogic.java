@@ -55,16 +55,17 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     @Override
     public List<Subject> getTeachersSubjects(int teacherId) {
         connect();
+        List<Subject> subjects = new ArrayList<>();
         logger.debug("Try to select teacher's subject (teacherId = " + teacherId + ") from DB");
         try {
             statement = connection.prepareStatement("SELECT * FROM LAB3_SUBJECTS WHERE TEACHERID = ?");
             statement.setInt(1, teacherId);
             resultSet = statement.executeQuery();
             logger.debug("ResultSet was received");
+            subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        List<Subject> subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
         logger.debug("Subjects received(" + subjects + ")");
         disconnect();
         for (Subject subject: subjects) {
@@ -72,6 +73,54 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         }
         logger.debug("Subjects' topics were added to objects");
         return subjects;
+    }
+
+    @Override
+    public List<Subject> getTeachersSubjects(String teacherUsername) {
+        connect();
+        List<Subject> subjects = new ArrayList<>();
+        try {
+            logger.debug("Try to select teacher's subjects (teacherUsername = " + teacherUsername + ")");
+            statement = connection.prepareStatement("SELECT SUBJECTS.* " +
+                    "FROM LAB3_SUBJECTS SUBJECTS, LAB3_USERS_INFO USERS " +
+                    "WHERE SUBJECTS.TEACHERID = USERS.ID AND USERS.EMAIL = ?");
+            statement.setString(1, teacherUsername);
+            resultSet = statement.executeQuery();
+            subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        logger.debug("Subjects received(" + subjects + ")");
+        disconnect();
+        for (Subject subject: subjects) {
+            subject.setTopics(getTopicsBySubjectId(subject.getId()));
+        }
+        logger.debug("Subjects' topics were added to objects");
+        return subjects;
+    }
+
+    @Override
+    public boolean isHeTeachSubject(String teacherUsername, int subjectId) {
+        connect();
+        boolean result = false;
+        try {
+            logger.debug("Is teacher " + teacherUsername + " teach this subject (subjectId = " + subjectId + ")");
+
+            statement = connection.prepareStatement("SELECT * " +
+                    "FROM LAB3_SUBJECTS SUBJECTS, LAB3_USERS_INFO USERS " +
+                    "WHERE SUBJECTS.TEACHERID = USERS.ID AND USERS.EMAIL = ? AND SUBJECTS.SUBJECTID = ?");
+            statement.setString(1, teacherUsername);
+            statement.setInt(2, subjectId);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        logger.debug("Result: " + result);
+        return result;
     }
 
     @Override
@@ -118,11 +167,12 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         List<Mark> marks = new ArrayList<>();
         try {
             logger.debug("Try to get student's marks (studentId = " + studentId + ") for subject (subjectId = " + subjectId + ")");
-            statement = connection.prepareStatement("SELECT MARKS.* " +
+            statement = connection.prepareStatement("SELECT MARKS.*, Topics.INDEXNUMBER " +
                     "FROM LAB3_MARKS MARKS, LAB3_TOPICS TOPICS " +
                     "WHERE STUDENTID = ? AND MARKS.TOPICID = TOPICS.TOPICID AND TOPICS.SUBJECTID = ?");
             statement.setInt(1, studentId);
             statement.setInt(2, subjectId);
+            resultSet = statement.executeQuery();
             marks = MarkUtils.getMarksFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,6 +180,55 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         disconnect();
         logger.debug(marks);
         return marks;
+    }
+
+    @Override
+    public boolean thisMarkExist(int studentId, int topicId) {
+        connect();
+        boolean result = false;
+        try {
+            statement = connection.prepareStatement("SELECT * FROM LAB3_MARKS WHERE TOPICID = ? AND STUDENTID = ?");
+            statement.setInt(1, topicId);
+            statement.setInt(2, studentId);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return result;
+    }
+
+    @Override
+    public void addMark(int studentId, int topicId, int value) {
+        connect();
+        try {
+            statement = connection.prepareStatement("INSERT INTO LAB3_MARKS (TOPICID, STUDENTID, MARK) VALUES (?, ?, ?)");
+            statement.setInt(1, topicId);
+            statement.setInt(2, studentId);
+            statement.setInt(3, value);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+    @Override
+    public void updateMark(int studentId, int topicId, int newValue) {
+        connect();
+        try {
+            statement = connection.prepareStatement("UPDATE LAB3_MARKS SET MARK = ? WHERE STUDENTID = ? AND TOPICID = ?");
+            statement.setInt(1, newValue);
+            statement.setInt(2, studentId);
+            statement.setInt(3, topicId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
     }
 
     @Override
@@ -164,6 +263,25 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         }
         disconnect();
         return userInfos;
+    }
+
+    @Override
+    public int getIdByUsername(String username) {
+        connect();
+        int id = 0;
+        try {
+            logger.debug("Try to get userId by username(username = '" + username + "'");
+            statement = connection.prepareStatement("SELECT ID FROM LAB3_USERS_INFO WHERE EMAIL = ?");
+            statement.setString(1, username);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            id = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        logger.debug("UserId = " + id);
+        return id;
     }
 
     @Override
@@ -217,12 +335,13 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
-    public void addSubject(String subjectName) {
+    public void addSubject(String subjectName, int teacherId) {
         connect();
         try {
             logger.debug("Try to add new subject( subjectName = " + subjectName + ", teacherId = " + 1 + ") to DB");
-            statement = connection.prepareStatement("INSERT INTO LAB3_SUBJECTS (TEACHERID, SUBJECTNAME) VALUES (1, ?)");
-            statement.setString(1, subjectName);
+            statement = connection.prepareStatement("INSERT INTO LAB3_SUBJECTS (TEACHERID, SUBJECTNAME) VALUES (?, ?)");
+            statement.setInt(1, teacherId);
+            statement.setString(2, subjectName);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,7 +395,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         connect();
         Group group = null;
         try {
-            logger.debug("Try get group (groupId = " + groupId + ")");
+            logger.debug("Try to get group (groupId = " + groupId + ")");
             statement = connection.prepareStatement("SELECT * FROM LAB3_GROUPS WHERE GROUPID = ?");
             statement.setInt(1, groupId);
             resultSet = statement.executeQuery();
@@ -288,6 +407,47 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         logger.debug("Group: " + group);
         group.setStudents(getStudentsByGroupId(groupId));
         return group;
+    }
+
+    @Override
+    public Group getGroup(String username) {
+        connect();
+        Group group = null;
+        try {
+            logger.debug("Try to " + username + "'s group");
+            statement = connection.prepareStatement("SELECT GROUPS.* " +
+                    "FROM LAB3_STUDENTS STUDENTS, LAB3_REG_USERS USERS, LAB3_GROUPS GROUPS " +
+                    "WHERE STUDENTS.USERID  = USERS.USERID AND GROUPS.GROUPID = STUDENTS.GROUPID AND USERS.EMAIL = ?;");
+            statement.setString(1, username);
+            resultSet = statement.executeQuery();
+            group = GroupUtils.getGroupsFromResultSet(resultSet).get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        group.setStudents(getStudentsByGroupId(group.getGroupId()));
+        logger.debug("Group: " + group);
+        return group;
+    }
+
+    @Override
+    public String getGroupName(String username) {
+        connect();
+        String groupName = "";
+        try {
+            logger.debug("Try to get user's group (username = " + username + ")");
+            statement = connection.prepareStatement("SELECT GROUPNAME FROM LAB3_USERS_INFO USERS WHERE EMAIL = ?");
+            statement.setString(1, username);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                groupName = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        logger.debug("GroupName: " + groupName);
+        return groupName;
     }
 
     @Override

@@ -20,7 +20,7 @@
             if (confirm("Are you sure?")) {
                 var element = document.getElementById("topic_" + id);
                 element.parentNode.removeChild(element);
-                var url = "topic_utils?action=delete&id=" + id;
+                var url = "topic_utils?action=delete&topicId=" + id;
                 request.open("POST", url);
                 request.send();
             }
@@ -46,6 +46,11 @@
             var url = "subject_utils?action=addGroupToSubject&groupId=" + groupId + "&subjectId=" + subjectId;
             request.open("POST", url);
             request.send();
+        }
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                document.getElementById('result').innerHTML = request.responseText;
+            }
         }
     </script>
     <%
@@ -132,5 +137,8 @@
         for (Group group: groupsThatTeachSubject) {%>
             <a href='marks?groupId=<%=group.getGroupId()%>&subjectId=<%=subject.getId()%>'><%=group.getGroupName()%></a>
     <%}%>
+<span id="result"></span>
+<a href="subjects">Go Back</a>
+<a href="logout">Log out</a>
 </body>
 </html>

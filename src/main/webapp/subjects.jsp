@@ -4,6 +4,7 @@
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
+<%@ page import="java.security.Principal" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,13 +26,19 @@
                 document.getElementById("addTopicForm").style.display = "none";
             }
         }
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                document.getElementById('result').innerHTML = request.responseText;
+            }
+        }
     </script>
     <%
         Logger logger = Logger.getLogger("subjects.jsp");
+        Principal principal = request.getUserPrincipal();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
         logger.debug("DAOConnection was received");
-        List<Subject> subjects = dao.getTeachersSubjects(1);
+        List<Subject> subjects = dao.getTeachersSubjects(principal.getName());
         if (subjects.isEmpty()) {%>
     You have not subjects.
         <%}
@@ -45,6 +52,8 @@
         Subject's name:<input id="subjectName" type="text"/>
         <input type="button" value="Add" onclick="addSubject()">
     </form>
-    <a href="userInfo">Back to cabinet</a>
+    <span id="result"></span>
+    <a href="user">Back to cabinet</a>
+    <a href="logout">Log out</a>
 </body>
 </html>

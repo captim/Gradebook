@@ -10,6 +10,8 @@ public interface DAOGroupUtils {
     List<Group> groupsThatTeachSubject(Subject subject);
     List<Group> getAllGroups();
     Group getGroup(int groupId);
+    Group getGroup(String username);
+    String getGroupName(String username);
     boolean isGroupLearnSubject(int subjectId, int groupId);
     List<Student> getStudentsByGroupId(int groupId);
 }

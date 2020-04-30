@@ -5,6 +5,7 @@ public class Mark {
     private int value;
     private int topicId;
     private int studentId;
+    private int indexInSubject;
 
     public int getId() {
         return id;
@@ -38,12 +39,32 @@ public class Mark {
         this.studentId = studentId;
     }
 
+    public int getIndexInSubject() {
+        return indexInSubject;
+    }
+
+    public void setIndexInSubject(int indexInSubject) {
+        this.indexInSubject = indexInSubject;
+    }
+    public Mark() {
+        super();
+    }
+    public Mark(int id, int value, int topicId, int studentId, int indexInSubject) {
+        this.id = id;
+        this.value = value;
+        this.topicId = topicId;
+        this.studentId = studentId;
+        this.indexInSubject = indexInSubject;
+    }
+
     @Override
     public String toString() {
         return "Mark{" +
-                "value=" + value +
+                "id=" + id +
+                ", value=" + value +
                 ", topicId=" + topicId +
                 ", studentId=" + studentId +
+                ", indexInSubject=" + indexInSubject +
                 '}';
     }
 }
