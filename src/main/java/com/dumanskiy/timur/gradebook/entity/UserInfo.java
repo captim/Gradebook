@@ -1,9 +1,20 @@
 package com.dumanskiy.timur.gradebook.entity;
 
 public class UserInfo {
+    private int id;
     private String username;
+    private String firstName;
+    private String lastName;
     private String password;
     private String role;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -11,6 +22,22 @@ public class UserInfo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -31,8 +58,10 @@ public class UserInfo {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserInfo{" +
                 "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", password='[PASSWORD]'" +
                 ", role='" + role + '\'' +
                 '}';

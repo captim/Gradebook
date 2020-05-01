@@ -22,7 +22,7 @@
     logger.debug("Marks receive subjectId = " + subjectIdStr + " and groupId = " + groupIdStr);
     int subjectId = Integer.parseInt(subjectIdStr);
     int groupId = Integer.parseInt(groupIdStr);
-    Group group = dao.getGroup(groupId);
+    Group group = dao.getGroupByGroupId(groupId);
     Subject subject = dao.getSubjectById(subjectId);
     subject.getTopics().sort(new CompareTopicsByIndex());
     logger.debug("Going to print marks");
@@ -34,9 +34,9 @@
     function onChangeMark(obj) {
         var changedMark = obj.id;
         var value = obj.value;
-        if (value < 0 || value > 5 || !Number.isInteger(Number(value))) {
+        if (value < 0 || value > 5 || !Number.isInteger(Number(value)) || !value) {
             alert("Value must be bigger then 0, less then 5 and integer");
-            document.getElementById('result').innerHTML = "Mark changed";
+            document.getElementById('result').innerHTML = "Mark wasn't changed";
             return;
         }
         var url = "mark_utils?changedMark=" + changedMark + "&value=" + value + "&subjectId=" + <%=subject.getId()%>;
@@ -46,7 +46,7 @@
                 if (request.readyState === 4) {
                     document.getElementById('result').innerHTML = request.responseText;
                 }
-            }
+            };
             request.open("POST", url);
             request.send();
         } catch (e) {
@@ -91,7 +91,7 @@
         %>
     </table>
     <span id="result"></span>
-    <a href='topics?id=<%=subject.getId()%>'>Go Back</a>
-<a href="logout">Log out</a>
+    <a href='/teacher/topics?id=<%=subject.getId()%>'>Go Back</a>
+<a href="/GradebookLab3/logout">Log out</a>
 </body>
 </html>

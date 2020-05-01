@@ -1,9 +1,11 @@
 package com.dumanskiy.timur.gradebook.controller;
 
 import com.dumanskiy.timur.gradebook.dao.DAOWebLogic;
+import com.dumanskiy.timur.gradebook.entity.Mark;
+import com.dumanskiy.timur.gradebook.entity.Student;
+import com.dumanskiy.timur.gradebook.entity.Subject;
 import com.dumanskiy.timur.gradebook.entity.Topic;
 import com.dumanskiy.timur.gradebook.entity.utils.TopicUtils;
-import netscape.security.Principal;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,44 +23,83 @@ import java.util.List;
 @ComponentScan(basePackages = "com.dumanskiy.timur.gradebook.dao")
 @Controller
 public class MainController {
-    private static Logger logger = Logger.getLogger(MainController.class);
-    //ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private final DAOWebLogic dao;// = context.getBean("dao", DAOWebLogic.class);
 
+    private static Logger logger = Logger.getLogger(MainController.class);
+    private DAOWebLogic dao;
+    @Autowired
     public MainController(DAOWebLogic dao) {
         this.dao = dao;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT')")
-    @RequestMapping(value={"/user", "/"})
+    @RequestMapping(value="/students")
+    @ResponseBody()
+    public List<Student> students(@RequestParam String groupId) {
+        return dao.getStudentsByGroupId(Integer.parseInt(groupId));
+    }
+
+    @RequestMapping(value="/subjects")
+    @ResponseBody()
+    public List<Subject> subjects(@RequestParam(required = false) String groupId,
+                                  @RequestParam(required = false) String teacherId) {
+        if (groupId != null && teacherId != null) {
+            return dao.getSubjects(Integer.parseInt(teacherId), Integer.parseInt(groupId));
+        } else if (teacherId != null) {
+            return dao.getSubjectsByTeacher(Integer.parseInt(teacherId));
+        } else if (groupId != null){
+            return dao.getSubjectsByGroup(Integer.parseInt(groupId));
+        } else {
+            return null;
+        }
+    }
+    @RequestMapping(value="/marks")
+    @ResponseBody()
+    public List<Mark> marks(@RequestParam String studentId) {
+        return dao.getAllMarks(Integer.parseInt(studentId));
+    }
+
+    @RequestMapping(value="/search")
+    public String search() {
+        logger.info("Redirect on search.jsp");
+        return "search";
+    }
+    @RequestMapping(value="/findStudents")
+    public String findStudents() {
+        logger.info("Redirect on findStudents.jsp");
+        return "findStudents";
+    }
+    @RequestMapping(value="/user")
     public String user() {
         logger.info("Redirect on user.jsp");
         return "user";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
-    @RequestMapping(value="/subjects")
-    public String subjects() {
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT')")
+    @RequestMapping(value={"/cabinet", "/"})
+    public String cabinet() {
+        logger.info("Redirect on cabinet.jsp");
+        return "cabinet";
+    }
+
+    @RequestMapping(value="/teacher/subjects")
+    public String teacherSubjects() {
         logger.info("Redirect on subjects.jsp");
         return "subjects";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
-    @RequestMapping(value="/topics")
-    public String subject() {
+    @RequestMapping(value="/teacher/topics")
+    public String teacherTopics() {
         logger.info("Redirect on topics.jsp");
         return "topics";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
-    @RequestMapping(value="/marks")
-    public String marks() {
+    @RequestMapping(value="/teacher/marks")
+    public String teacherMarks() {
         logger.info("Redirect on marks.jsp");
         return "marks";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
-    @RequestMapping(value = "/subject_utils", method = RequestMethod.POST)
+    @RequestMapping(value = "/teacher/subject_utils", method = RequestMethod.POST)
     @ResponseBody
     public String subjectUtils(@RequestParam String action, @RequestParam(required = false) String subjectName,
                              @RequestParam(required = false) String groupId, @RequestParam(required = false) String subjectId) {
@@ -92,7 +133,7 @@ public class MainController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_TEACHER')")
-    @RequestMapping(value = "/topic_utils", method = RequestMethod.POST)
+    @RequestMapping(value = "/teacher/topic_utils", method = RequestMethod.POST)
     @ResponseBody
     public String topicUtils(@RequestParam String action, @RequestParam(required = false) String topicId,
                            @RequestParam(required = false) String subjectId, @RequestParam(required = false) String topicName) {
@@ -136,7 +177,7 @@ public class MainController {
         }
     }
     @PreAuthorize("hasRole('ROLE_TEACHER')")
-    @RequestMapping(value = "/mark_utils", method = RequestMethod.POST)
+    @RequestMapping(value = "/teacher/mark_utils", method = RequestMethod.POST)
     @ResponseBody
     public String markUtils(@RequestParam String changedMark, @RequestParam String value, @RequestParam String subjectId) {
         logger.info("Request to mark_utils");
@@ -159,4 +200,11 @@ public class MainController {
             return "Mark created";
         }
     }
+
+    @RequestMapping(value = "/student/group")
+    public String  group() {
+        logger.info("Request to group");
+        return "group";
+    }
+
 }

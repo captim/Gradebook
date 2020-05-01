@@ -135,10 +135,10 @@
     <a3>Groups' marks</a3>
     <%
         for (Group group: groupsThatTeachSubject) {%>
-            <a href='marks?groupId=<%=group.getGroupId()%>&subjectId=<%=subject.getId()%>'><%=group.getGroupName()%></a>
+            <a href='/GradebookLab3/teacher/marks?groupId=<%=group.getGroupId()%>&subjectId=<%=subject.getId()%>'><%=group.getGroupName()%></a>
     <%}%>
 <span id="result"></span>
-<a href="subjects">Go Back</a>
-<a href="logout">Log out</a>
+<a href="teacher/subjects">Go Back</a>
+<a href="/GradebookLab3/logout">Log out</a>
 </body>
 </html>

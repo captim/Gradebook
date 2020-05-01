@@ -10,8 +10,8 @@ import java.util.List;
 
 public class UserUtils {
     private static Logger logger = Logger.getLogger(UserUtils.class);
-    public static List<UserInfo> getUsersFromResultSet(ResultSet resultSet) throws SQLException {
-        logger.debug("Try to get users from resultSet");
+    public static List<UserInfo> getInfoForAuth(ResultSet resultSet) throws SQLException {
+        logger.debug("Try to get info for authentication from resultSet");
         List<UserInfo> userInfos = new ArrayList<>();
         while (resultSet.next()) {
             UserInfo userInfo = new UserInfo();
@@ -21,5 +21,18 @@ public class UserUtils {
             userInfos.add(userInfo);
         }
         return userInfos;
+    }
+    public static UserInfo getUserInfoFromResultSet(ResultSet resultSet) throws SQLException {
+        logger.debug("Try to get userInfo from resultSet");
+        if (resultSet.next()) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(resultSet.getInt("ID"));
+            userInfo.setUsername(resultSet.getString("EMAIL"));
+            userInfo.setRole(resultSet.getString("ROLENAME"));
+            userInfo.setFirstName(resultSet.getString("LASTNAME"));
+            userInfo.setLastName(resultSet.getString("FIRSTNAME"));
+            return userInfo;
+        }
+        return null;
     }
 }

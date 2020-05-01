@@ -38,13 +38,13 @@
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
         logger.debug("DAOConnection was received");
-        List<Subject> subjects = dao.getTeachersSubjects(principal.getName());
+        List<Subject> subjects = dao.getSubjectsByTeacher(principal.getName());
         if (subjects.isEmpty()) {%>
     You have not subjects.
         <%}
             for (Subject subject : subjects) {
         %>
-    <a href="topics?id=<%=subject.getId()%>"><%=subject.getName()%>
+    <a href="/GradebookLab3/teacher/topics?id=<%=subject.getId()%>"><%=subject.getName()%>
     </a><br>
     <%}%>
     <input id="addSubjectButton" type="button" value="Add new subject" onclick="showAddSubjectForm()"/>
@@ -53,7 +53,7 @@
         <input type="button" value="Add" onclick="addSubject()">
     </form>
     <span id="result"></span>
-    <a href="user">Back to cabinet</a>
-    <a href="logout">Log out</a>
+    <a href="/GradebookLab3/cabinet">Back to cabinet</a>
+    <a href="/GradebookLab3/logout">Log out</a>
 </body>
 </html>

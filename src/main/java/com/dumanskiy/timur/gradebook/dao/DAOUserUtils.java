@@ -7,4 +7,5 @@ import java.util.List;
 public interface DAOUserUtils {
     List<UserInfo> getUsers();
     int getIdByUsername(String username);
+    UserInfo getUserById(int id);
 }

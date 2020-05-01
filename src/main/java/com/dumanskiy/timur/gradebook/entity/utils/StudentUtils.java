@@ -20,9 +20,31 @@ public class StudentUtils {
         }
         return students;
     }
-    public static void setMarksForSubject(List<Student> students, int subjectId, int amountOfTopics) {
+    public static List<Student> filterByStartFirstName(List<Student> students, String startFirstName) {
+        List<Student> filteredStudents = new ArrayList<>();
         for (Student student: students) {
-
+            if (student.getFirstName().startsWith(startFirstName)) {
+                filteredStudents.add(student);
+            }
         }
+        return filteredStudents;
+    }
+    public static List<Student> filterByStartLastName(List<Student> students, String startLastName) {
+        List<Student> filteredStudents = new ArrayList<>();
+        for (Student student: students) {
+            if (student.getLastName().startsWith(startLastName)) {
+                filteredStudents.add(student);
+            }
+        }
+        return filteredStudents;
+    }
+    public static List<Student> filterByGroupId(List<Student> students, int groupId) {
+        List<Student> filteredStudents = new ArrayList<>();
+        for (Student student: students) {
+            if (student.getGroupId() == groupId) {
+                filteredStudents.add(student);
+            }
+        }
+        return filteredStudents;
     }
 }

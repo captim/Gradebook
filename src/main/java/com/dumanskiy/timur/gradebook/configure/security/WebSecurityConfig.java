@@ -45,9 +45,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/teacher/**").hasAnyRole("TEACHER")
+                .antMatchers("/student/**").hasAnyRole("STUDENT")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin().defaultSuccessUrl("/user")
+                .formLogin().defaultSuccessUrl("/cabinet")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }

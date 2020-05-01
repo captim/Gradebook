@@ -21,7 +21,7 @@ import java.util.List;
 @Component("dao")
 @PropertySource("classpath:resources.properties")
 public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
-        DAOSubjectUtils, DAOTopicUtils, DAOUserUtils {
+        DAOSubjectUtils, DAOTopicUtils, DAOUserUtils, DAOStudentsUtils {
     private Connection connection;
     private PreparedStatement statement;
     private ResultSet resultSet;
@@ -53,7 +53,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
-    public List<Subject> getTeachersSubjects(int teacherId) {
+    public List<Subject> getSubjectsByTeacher(int teacherId) {
         connect();
         List<Subject> subjects = new ArrayList<>();
         logger.debug("Try to select teacher's subject (teacherId = " + teacherId + ") from DB");
@@ -76,7 +76,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
-    public List<Subject> getTeachersSubjects(String teacherUsername) {
+    public List<Subject> getSubjectsByTeacher(String teacherUsername) {
         connect();
         List<Subject> subjects = new ArrayList<>();
         try {
@@ -96,6 +96,53 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             subject.setTopics(getTopicsBySubjectId(subject.getId()));
         }
         logger.debug("Subjects' topics were added to objects");
+        return subjects;
+    }
+
+    @Override
+    public List<Subject> getSubjectsByGroup(int groupId) {
+        connect();
+        List<Subject> subjects = new ArrayList<>();
+        try {
+            logger.debug("Try to select group's subjects (groupId = " + groupId + ")");
+            statement = connection.prepareStatement(
+                    "SELECT SUBJECTS.SUBJECTID, SUBJECTNAME\n" +
+                    "FROM LAB3_SUBJECTS_ON_GROUP SOG, LAB3_SUBJECTS SUBJECTS\n" +
+                    "WHERE SOG.GROUP_ID = ? AND SOG.SUBJECT_ID = SUBJECTS.SUBJECTID");
+            statement.setInt(1, groupId);
+            resultSet = statement.executeQuery();
+            subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        for (Subject subject: subjects) {
+            subject.setTopics(getTopicsBySubjectId(subject.getId()));
+        }
+        return subjects;
+    }
+
+    @Override
+    public List<Subject> getSubjects(int teacherId, int groupId) {
+        connect();
+        List<Subject> subjects = new ArrayList<>();
+        try {
+            logger.debug("Try to select group's subjects (groupId = " + groupId + ")");
+            statement = connection.prepareStatement(
+                    "SELECT SUBJECTS.SUBJECTID, SUBJECTNAME\n" +
+                            "FROM LAB3_SUBJECTS_ON_GROUP SOG, LAB3_SUBJECTS SUBJECTS\n" +
+                            "WHERE SOG.GROUP_ID = ? AND SUBJECTS.TEACHERID = ? AND SOG.SUBJECT_ID = SUBJECTS.SUBJECTID");
+            statement.setInt(1, groupId);
+            statement.setInt(2, teacherId);
+            resultSet = statement.executeQuery();
+            subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        for (Subject subject: subjects) {
+            subject.setTopics(getTopicsBySubjectId(subject.getId()));
+        }
         return subjects;
     }
 
@@ -183,6 +230,26 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
+    public List<Mark> getAllMarks(int studentId) {
+        connect();
+        List<Mark> marks = new ArrayList<>();
+        try {
+            logger.debug("Try to get all student's marks (studentId = " + studentId + ")");
+            statement = connection.prepareStatement("SELECT MARKS.*, Topics.INDEXNUMBER " +
+                    "FROM LAB3_MARKS MARKS, LAB3_TOPICS TOPICS " +
+                    "WHERE STUDENTID = ? AND MARKS.TOPICID = TOPICS.TOPICID");
+            statement.setInt(1, studentId);
+            resultSet = statement.executeQuery();
+            marks = MarkUtils.getMarksFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        logger.debug("Marks: " + marks);
+        disconnect();
+        return marks;
+    }
+
+    @Override
     public boolean thisMarkExist(int studentId, int topicId) {
         connect();
         boolean result = false;
@@ -257,7 +324,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             logger.debug("Try to get all users");
             statement = connection.prepareStatement("SELECT * FROM LAB3_USERS_INFO");
             resultSet = statement.executeQuery();
-            userInfos = UserUtils.getUsersFromResultSet(resultSet);
+            userInfos = UserUtils.getInfoForAuth(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -282,6 +349,24 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         disconnect();
         logger.debug("UserId = " + id);
         return id;
+    }
+
+    @Override
+    public UserInfo getUserById(int userId) {
+        connect();
+        UserInfo userInfo = null;
+        try {
+            logger.debug("Try to get userInfo by userId");
+            statement = connection.prepareStatement("SELECT * FROM LAB3_USERS_INFO WHERE ID = ?");
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+            userInfo = UserUtils.getUserInfoFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        logger.debug("User: " + userInfo);
+        return userInfo;
     }
 
     @Override
@@ -391,7 +476,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
-    public Group getGroup(int groupId) {
+    public Group getGroupByGroupId(int groupId) {
         connect();
         Group group = null;
         try {
@@ -410,14 +495,14 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
-    public Group getGroup(String username) {
+    public Group getGroupByUsername(String username) {
         connect();
         Group group = null;
         try {
-            logger.debug("Try to " + username + "'s group");
+            logger.debug("Try to get " + username + "'s group");
             statement = connection.prepareStatement("SELECT GROUPS.* " +
                     "FROM LAB3_STUDENTS STUDENTS, LAB3_REG_USERS USERS, LAB3_GROUPS GROUPS " +
-                    "WHERE STUDENTS.USERID  = USERS.USERID AND GROUPS.GROUPID = STUDENTS.GROUPID AND USERS.EMAIL = ?;");
+                    "WHERE STUDENTS.USERID  = USERS.USERID AND GROUPS.GROUPID = STUDENTS.GROUPID AND USERS.EMAIL = ?");
             statement.setString(1, username);
             resultSet = statement.executeQuery();
             group = GroupUtils.getGroupsFromResultSet(resultSet).get(0);
@@ -456,8 +541,24 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         List<Student> result = new ArrayList<>();
         try {
             logger.debug("Select students from group №" + groupId);
-            statement = connection.prepareStatement("SELECT * FROM LAB3_STUDENTS WHERE GROUPID = ?");
+            statement = connection.prepareStatement("SELECT * FROM LAB3_STUDENTS WHERE GROUPID = ? order by LASTNAME asc ");
             statement.setInt(1, groupId);
+            resultSet = statement.executeQuery();
+            result = StudentUtils.getStudentsFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return result;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        connect();
+        List<Student> result = new ArrayList<>();
+        try {
+            logger.debug("Select all students");
+            statement = connection.prepareStatement("SELECT * FROM LAB3_STUDENTS order by LASTNAME asc ");
             resultSet = statement.executeQuery();
             result = StudentUtils.getStudentsFromResultSet(resultSet);
         } catch (SQLException e) {
