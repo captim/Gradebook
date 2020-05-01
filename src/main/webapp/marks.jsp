@@ -91,7 +91,7 @@
         %>
     </table>
     <span id="result"></span>
-    <a href='/teacher/topics?id=<%=subject.getId()%>'>Go Back</a>
+    <a href='/GradebookLab3/teacher/topics?id=<%=subject.getId()%>'>Go Back</a>
 <a href="/GradebookLab3/logout">Log out</a>
 </body>
 </html>

@@ -138,7 +138,7 @@
             <a href='/GradebookLab3/teacher/marks?groupId=<%=group.getGroupId()%>&subjectId=<%=subject.getId()%>'><%=group.getGroupName()%></a>
     <%}%>
 <span id="result"></span>
-<a href="teacher/subjects">Go Back</a>
+<a href="/GradebookLab3/teacher/subjects">Go Back</a>
 <a href="/GradebookLab3/logout">Log out</a>
 </body>
 </html>
