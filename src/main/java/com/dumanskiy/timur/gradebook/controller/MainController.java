@@ -206,5 +206,4 @@ public class MainController {
         logger.info("Request to group");
         return "group";
     }
-
 }
