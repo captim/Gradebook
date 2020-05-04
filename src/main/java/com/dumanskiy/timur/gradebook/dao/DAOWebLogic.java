@@ -2,15 +2,20 @@ package com.dumanskiy.timur.gradebook.dao;
 
 import com.dumanskiy.timur.gradebook.entity.*;
 import com.dumanskiy.timur.gradebook.entity.utils.*;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.annotation.PostConstruct;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +56,20 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             e.printStackTrace();
         }
     }
-
+    @PostConstruct
+    public void initMethod() {
+        connect();
+        try {
+            logger.debug("Try to execute sql script");
+            File script = ResourceUtils.getFile("classpath:export.sql");
+            ScriptRunner scriptRunner = new ScriptRunner(connection);
+            Reader reader = new BufferedReader(new FileReader(script));
+            scriptRunner.runScript(reader);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
     @Override
     public List<Subject> getSubjectsByTeacher(int teacherId) {
         connect();
