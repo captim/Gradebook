@@ -5,37 +5,44 @@
 --  DDL for Sequence LAB3_GROUPS_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_GROUPS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_GROUPS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Sequence LAB3_MARKS_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_MARKS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 101 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_MARKS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 101 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Sequence LAB3_REG_USERS_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_REG_USERS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_REG_USERS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Sequence LAB3_ROLES_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_ROLES_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_ROLES_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Sequence LAB3_SUBJECTS_ON_GROUP_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_SUBJECTS_ON_GROUP_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_SUBJECTS_ON_GROUP_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Sequence LAB3_SUBJECTS_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_SUBJECTS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_SUBJECTS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 81 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Sequence LAB3_TOPICS_SEQ
 --------------------------------------------------------
 
-CREATE SEQUENCE  "LAB3_TOPICS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 161 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+CREATE SEQUENCE  "LAB3_TOPICS_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 161 CACHE 20 NOORDER  NOCYCLE;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_GROUPS
 --------------------------------------------------------
@@ -50,6 +57,7 @@ CREATE TABLE "LAB3_GROUPS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_MARKS
 --------------------------------------------------------
@@ -66,6 +74,7 @@ CREATE TABLE "LAB3_MARKS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_REG_USERS
 --------------------------------------------------------
@@ -82,6 +91,7 @@ CREATE TABLE "LAB3_REG_USERS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_ROLES
 --------------------------------------------------------
@@ -96,6 +106,7 @@ CREATE TABLE "LAB3_ROLES"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_STUDENTS
 --------------------------------------------------------
@@ -113,6 +124,7 @@ CREATE TABLE "LAB3_STUDENTS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_SUBJECTS
 --------------------------------------------------------
@@ -128,6 +140,7 @@ CREATE TABLE "LAB3_SUBJECTS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_SUBJECTS_ON_GROUP
 --------------------------------------------------------
@@ -143,6 +156,7 @@ CREATE TABLE "LAB3_SUBJECTS_ON_GROUP"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_TEACHERS
 --------------------------------------------------------
@@ -158,6 +172,7 @@ CREATE TABLE "LAB3_TEACHERS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Table LAB3_TOPICS
 --------------------------------------------------------
@@ -174,6 +189,7 @@ CREATE TABLE "LAB3_TOPICS"
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for View LAB3_USERS_INFO
 --------------------------------------------------------
@@ -191,44 +207,42 @@ from lab3_reg_users users
          inner join lab3_roles roles on users.roleid = roles.roleid
          full outer join lab3_students students on users.userid = students.userid
          full outer join lab3_teachers teachers on users.userid = teachers.userid
-         full outer join lab3_groups groups on groups.groupid = students.groupid
+         full outer join lab3_groups groups on groups.groupid = students.groupid;
 
-
-;
-REM INSERTING into LAB3_GROUPS
+/REM INSERTING into LAB3_GROUPS
 SET DEFINE OFF;
-Insert into LAB3_GROUPS (GROUPID,GROUPNAME) values ('1','IT-81');
-REM INSERTING into LAB3_MARKS
+/Insert into LAB3_GROUPS (GROUPID,GROUPNAME) values ('1','IT-81');
+/REM INSERTING into LAB3_MARKS
 SET DEFINE OFF;
-REM INSERTING into LAB3_REG_USERS
+/REM INSERTING into LAB3_REG_USERS
 SET DEFINE OFF;
-Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('68','alexander@gmail.com','123','21');
-Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('1','john2233@gmail.com','parolyaNet0','2');
-Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('2','timur@gmail.com','parolyaNet0','3');
-Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('41','bekker.d@gmail.com','123','3');
-Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('42','alex7743@gmail.com','123','2');
-REM INSERTING into LAB3_ROLES
+/Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('68','alexander@gmail.com','123','21');
+/Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('1','john2233@gmail.com','parolyaNet0','2');
+/Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('2','timur@gmail.com','parolyaNet0','3');
+/Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('41','bekker.d@gmail.com','123','3');
+/Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('42','alex7743@gmail.com','123','2');
+/REM INSERTING into LAB3_ROLES
 SET DEFINE OFF;
-Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('21','STUD_CHIEF');
-Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('1','ADMIN');
-Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('2','TEACHER');
-Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('3','STUDENT');
-REM INSERTING into LAB3_STUDENTS
+/Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('21','STUD_CHIEF');
+/Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('1','ADMIN');
+/Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('2','TEACHER');
+/Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('3','STUDENT');
+/REM INSERTING into LAB3_STUDENTS
 SET DEFINE OFF;
-Insert into LAB3_STUDENTS (USERID,GROUPID,FIRSTNAME,LASTNAME,CHIEF) values ('68','1','Alexander','Skubko','68');
-Insert into LAB3_STUDENTS (USERID,GROUPID,FIRSTNAME,LASTNAME,CHIEF) values ('41','1','Dima','Bekker','68');
-Insert into LAB3_STUDENTS (USERID,GROUPID,FIRSTNAME,LASTNAME,CHIEF) values ('2','1','Timur','Dumanskiy','68');
-REM INSERTING into LAB3_SUBJECTS
+/Insert into LAB3_STUDENTS (USERID,GROUPID,FIRSTNAME,LASTNAME,CHIEF) values ('68','1','Alexander','Skubko','68');
+/Insert into LAB3_STUDENTS (USERID,GROUPID,FIRSTNAME,LASTNAME,CHIEF) values ('41','1','Dima','Bekker','68');
+/Insert into LAB3_STUDENTS (USERID,GROUPID,FIRSTNAME,LASTNAME,CHIEF) values ('2','1','Timur','Dumanskiy','68');
+/REM INSERTING into LAB3_SUBJECTS
 SET DEFINE OFF;
-REM INSERTING into LAB3_SUBJECTS_ON_GROUP
+/REM INSERTING into LAB3_SUBJECTS_ON_GROUP
 SET DEFINE OFF;
-REM INSERTING into LAB3_TEACHERS
+/REM INSERTING into LAB3_TEACHERS
 SET DEFINE OFF;
-Insert into LAB3_TEACHERS (USERID,FIRSTNAME,LASTNAME) values ('42','Stive','Jobs');
-Insert into LAB3_TEACHERS (USERID,FIRSTNAME,LASTNAME) values ('1','John','Anderson');
-REM INSERTING into LAB3_TOPICS
+/Insert into LAB3_TEACHERS (USERID,FIRSTNAME,LASTNAME) values ('42','Stive','Jobs');
+/Insert into LAB3_TEACHERS (USERID,FIRSTNAME,LASTNAME) values ('1','John','Anderson');
+/REM INSERTING into LAB3_TOPICS
 SET DEFINE OFF;
---------------------------------------------------------
+/--------------------------------------------------------
 --  DDL for Index GROUPS_PK
 --------------------------------------------------------
 
@@ -238,6 +252,7 @@ CREATE UNIQUE INDEX "GROUPS_PK" ON "LAB3_GROUPS" ("GROUPID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index LAB3_REG_USERS_PK
 --------------------------------------------------------
@@ -248,6 +263,7 @@ CREATE UNIQUE INDEX "LAB3_REG_USERS_PK" ON "LAB3_REG_USERS" ("USERID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index LAB3_ROLES_PK
 --------------------------------------------------------
@@ -258,6 +274,7 @@ CREATE UNIQUE INDEX "LAB3_ROLES_PK" ON "LAB3_ROLES" ("ROLEID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index LAB3_STUDENTS_PK
 --------------------------------------------------------
@@ -268,6 +285,7 @@ CREATE UNIQUE INDEX "LAB3_STUDENTS_PK" ON "LAB3_STUDENTS" ("USERID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index LAB3_SUBJECTS_ON_GROUP_PK
 --------------------------------------------------------
@@ -278,6 +296,7 @@ CREATE UNIQUE INDEX "LAB3_SUBJECTS_ON_GROUP_PK" ON "LAB3_SUBJECTS_ON_GROUP" ("SU
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index LAB3_TEACHERS_PK
 --------------------------------------------------------
@@ -288,6 +307,7 @@ CREATE UNIQUE INDEX "LAB3_TEACHERS_PK" ON "LAB3_TEACHERS" ("USERID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index MARKS_PK
 --------------------------------------------------------
@@ -298,6 +318,7 @@ CREATE UNIQUE INDEX "MARKS_PK" ON "LAB3_MARKS" ("MARKID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index SUBJECTS_PK
 --------------------------------------------------------
@@ -308,6 +329,7 @@ CREATE UNIQUE INDEX "SUBJECTS_PK" ON "LAB3_SUBJECTS" ("SUBJECTID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Index TOPICS_PK
 --------------------------------------------------------
@@ -318,6 +340,7 @@ CREATE UNIQUE INDEX "TOPICS_PK" ON "LAB3_TOPICS" ("TOPICID")
     PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
     BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
     TABLESPACE "USERS" ;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_DELETE_SUBJECT_TRG
 --------------------------------------------------------
@@ -333,6 +356,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_DELETE_SUBJECT_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_GROUPS_TRG
 --------------------------------------------------------
@@ -350,6 +374,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_GROUPS_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_MARKS_TRG
 --------------------------------------------------------
@@ -367,6 +392,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_MARKS_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_REG_USERS_TRG
 --------------------------------------------------------
@@ -389,6 +415,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_REG_USERS_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_ROLES_TRG
 --------------------------------------------------------
@@ -406,6 +433,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_ROLES_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_STUDENTS_DELETE
 --------------------------------------------------------
@@ -418,6 +446,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_STUDENTS_DELETE" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_STUDENT_TRG
 --------------------------------------------------------
@@ -435,6 +464,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_STUDENT_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_SUBJECT_DELETE_TRG
 --------------------------------------------------------
@@ -450,6 +480,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_SUBJECT_DELETE_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_SUBJECTS_ON_GROUP_TRG
 --------------------------------------------------------
@@ -467,6 +498,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_SUBJECTS_ON_GROUP_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_SUBJECTS_TRG
 --------------------------------------------------------
@@ -484,6 +516,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_SUBJECTS_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_TEACHERS_DELETE
 --------------------------------------------------------
@@ -496,6 +529,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_TEACHERS_DELETE" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_TOPIC_DELETE_TRG
 --------------------------------------------------------
@@ -508,6 +542,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_TOPIC_DELETE_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_TOPICS_TRG
 --------------------------------------------------------
@@ -525,6 +560,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_TOPICS_TRG" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_USERS_INFO_DELETE
 --------------------------------------------------------
@@ -542,6 +578,7 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_USERS_INFO_DELETE" ENABLE;
+/
 --------------------------------------------------------
 --  DDL for Trigger LAB3_USERS_INFO_INSERT
 --------------------------------------------------------
@@ -569,122 +606,126 @@ BEGIN
 END;
 /
 ALTER TRIGGER "LAB3_USERS_INFO_INSERT" ENABLE;
+/
 --------------------------------------------------------
 --  Constraints for Table LAB3_TEACHERS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_TEACHERS" MODIFY ("USERID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TEACHERS" MODIFY ("FIRSTNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TEACHERS" MODIFY ("LASTNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TEACHERS" ADD CONSTRAINT "LAB3_TEACHERS_PK" PRIMARY KEY ("USERID")
+/ALTER TABLE "LAB3_TEACHERS" MODIFY ("FIRSTNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_TEACHERS" MODIFY ("LASTNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_TEACHERS" ADD CONSTRAINT "LAB3_TEACHERS_PK" PRIMARY KEY ("USERID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+/--------------------------------------------------------
 --  Constraints for Table LAB3_MARKS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_MARKS" MODIFY ("MARKID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_MARKS" MODIFY ("TOPICID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_MARKS" MODIFY ("STUDENTID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_MARKS" MODIFY ("MARK" NOT NULL ENABLE);
-ALTER TABLE "LAB3_MARKS" ADD CONSTRAINT "MARKS_PK" PRIMARY KEY ("MARKID")
+/ALTER TABLE "LAB3_MARKS" MODIFY ("TOPICID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_MARKS" MODIFY ("STUDENTID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_MARKS" MODIFY ("MARK" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_MARKS" ADD CONSTRAINT "MARKS_PK" PRIMARY KEY ("MARKID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+/--------------------------------------------------------
 --  Constraints for Table LAB3_SUBJECTS_ON_GROUP
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" MODIFY ("SUBJECTS_ON_GROPU_ID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" MODIFY ("GROUP_ID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" MODIFY ("SUBJECT_ID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" ADD CONSTRAINT "LAB3_SUBJECTS_ON_GROUP_PK" PRIMARY KEY ("SUBJECTS_ON_GROPU_ID")
+/ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" MODIFY ("GROUP_ID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" MODIFY ("SUBJECT_ID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_SUBJECTS_ON_GROUP" ADD CONSTRAINT "LAB3_SUBJECTS_ON_GROUP_PK" PRIMARY KEY ("SUBJECTS_ON_GROPU_ID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+
+/--------------------------------------------------------
 --  Constraints for Table LAB3_TOPICS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_TOPICS" MODIFY ("TOPICID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TOPICS" MODIFY ("SUBJECTID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TOPICS" MODIFY ("INDEXNUMBER" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TOPICS" MODIFY ("TOPICNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_TOPICS" ADD CONSTRAINT "TOPICS_PK" PRIMARY KEY ("TOPICID")
+/ALTER TABLE "LAB3_TOPICS" MODIFY ("SUBJECTID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_TOPICS" MODIFY ("INDEXNUMBER" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_TOPICS" MODIFY ("TOPICNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_TOPICS" ADD CONSTRAINT "TOPICS_PK" PRIMARY KEY ("TOPICID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+
+/--------------------------------------------------------
 --  Constraints for Table LAB3_REG_USERS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_REG_USERS" MODIFY ("USERID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_REG_USERS" MODIFY ("EMAIL" NOT NULL ENABLE);
-ALTER TABLE "LAB3_REG_USERS" MODIFY ("PASSWORD" NOT NULL ENABLE);
-ALTER TABLE "LAB3_REG_USERS" MODIFY ("ROLEID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_REG_USERS" ADD CONSTRAINT "LAB3_REG_USERS_PK" PRIMARY KEY ("USERID")
+/ALTER TABLE "LAB3_REG_USERS" MODIFY ("EMAIL" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_REG_USERS" MODIFY ("PASSWORD" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_REG_USERS" MODIFY ("ROLEID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_REG_USERS" ADD CONSTRAINT "LAB3_REG_USERS_PK" PRIMARY KEY ("USERID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+/--------------------------------------------------------
 --  Constraints for Table LAB3_ROLES
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_ROLES" MODIFY ("ROLEID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_ROLES" MODIFY ("ROLENAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_ROLES" ADD CONSTRAINT "LAB3_ROLES_PK" PRIMARY KEY ("ROLEID")
+/ALTER TABLE "LAB3_ROLES" MODIFY ("ROLENAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_ROLES" ADD CONSTRAINT "LAB3_ROLES_PK" PRIMARY KEY ("ROLEID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+/--------------------------------------------------------
 --  Constraints for Table LAB3_SUBJECTS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_SUBJECTS" MODIFY ("SUBJECTID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_SUBJECTS" MODIFY ("TEACHERID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_SUBJECTS" MODIFY ("SUBJECTNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_SUBJECTS" ADD CONSTRAINT "SUBJECTS_PK" PRIMARY KEY ("SUBJECTID")
+/ALTER TABLE "LAB3_SUBJECTS" MODIFY ("TEACHERID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_SUBJECTS" MODIFY ("SUBJECTNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_SUBJECTS" ADD CONSTRAINT "SUBJECTS_PK" PRIMARY KEY ("SUBJECTID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+/--------------------------------------------------------
 --  Constraints for Table LAB3_GROUPS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_GROUPS" MODIFY ("GROUPID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_GROUPS" MODIFY ("GROUPNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_GROUPS" ADD CONSTRAINT "GROUPS_PK" PRIMARY KEY ("GROUPID")
+/ALTER TABLE "LAB3_GROUPS" MODIFY ("GROUPNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_GROUPS" ADD CONSTRAINT "GROUPS_PK" PRIMARY KEY ("GROUPID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
---------------------------------------------------------
+/--------------------------------------------------------
 --  Constraints for Table LAB3_STUDENTS
 --------------------------------------------------------
 
 ALTER TABLE "LAB3_STUDENTS" MODIFY ("USERID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_STUDENTS" MODIFY ("GROUPID" NOT NULL ENABLE);
-ALTER TABLE "LAB3_STUDENTS" MODIFY ("FIRSTNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_STUDENTS" MODIFY ("LASTNAME" NOT NULL ENABLE);
-ALTER TABLE "LAB3_STUDENTS" ADD CONSTRAINT "LAB3_STUDENTS_PK" PRIMARY KEY ("USERID")
+/ALTER TABLE "LAB3_STUDENTS" MODIFY ("GROUPID" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_STUDENTS" MODIFY ("FIRSTNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_STUDENTS" MODIFY ("LASTNAME" NOT NULL ENABLE);
+/ALTER TABLE "LAB3_STUDENTS" ADD CONSTRAINT "LAB3_STUDENTS_PK" PRIMARY KEY ("USERID")
     USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
         STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE "USERS"  ENABLE;
+/

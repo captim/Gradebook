@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 @Component("dao")
+@Scope(value = "singleton")
 @PropertySource("classpath:resources.properties")
 public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         DAOSubjectUtils, DAOTopicUtils, DAOUserUtils, DAOStudentsUtils {
@@ -35,6 +37,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     private String dataSourceName;
     @Value("${gradeBook.dataSource.URL}")
     private String file;
+    private static boolean dbCreated;
     @Override
     public void connect() {
         logger.trace("Try to connect to weblogic DB");
@@ -58,11 +61,17 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
     @PostConstruct
     public void initMethod() {
+        if (dbCreated) {
+            return;
+        }
         connect();
+        dbCreated = true;
         try {
             logger.debug("Try to execute sql script");
             File script = ResourceUtils.getFile("classpath:export.sql");
             ScriptRunner scriptRunner = new ScriptRunner(connection);
+            scriptRunner.setDelimiter("/");
+            scriptRunner.setFullLineDelimiter(true);
             Reader reader = new BufferedReader(new FileReader(script));
             scriptRunner.runScript(reader);
         } catch (FileNotFoundException e) {
