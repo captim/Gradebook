@@ -73,7 +73,7 @@ public class MainController {
         return "user";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_STUDENT', 'ROLE_ADMIN')")
     @RequestMapping(value={"/cabinet", "/"})
     public String cabinet() {
         logger.info("Redirect on cabinet.jsp");
@@ -205,5 +205,10 @@ public class MainController {
     public String  group() {
         logger.info("Request to group");
         return "group";
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/admin")
+    public String admin() {
+        return "admin";
     }
 }

@@ -45,5 +45,12 @@
         Find student
     </a>
 </div>
+<security:authorize access="hasRole('ADMIN')">
+    <div>
+        <a href="admin">
+            Admin page
+        </a>
+    </div>
+</security:authorize>
 </body>
 </html>

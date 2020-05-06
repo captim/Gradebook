@@ -66,7 +66,7 @@ CREATE TABLE "LAB3_MARKS"
 
 CREATE TABLE "LAB3_REG_USERS"
 (	"USERID" NUMBER,
-     "EMAIL" VARCHAR2(20 BYTE),
+     "EMAIL" VARCHAR2(30 BYTE),
      "PASSWORD" VARCHAR2(20 BYTE),
      "ROLEID" NUMBER(*,0)
 );
@@ -530,7 +530,7 @@ ALTER TABLE "LAB3_STUDENTS" ADD CONSTRAINT "LAB3_STUDENTS_PK" PRIMARY KEY ("USER
 --------------------------------------------------------
 
 / ALTER TABLE "LAB3_TEACHERS" ADD CONSTRAINT "LAB3_TEACHER_ID_FK" FOREIGN KEY ("USERID")
-	  REFERENCES "LAB3_TEACHERS" ("USERID") ENABLE;
+	  REFERENCES "LAB3_REG_USERS" ("USERID") ENABLE;
 --------------------------------------------------------
 --  Ref Constraints for Table LAB3_TOPICS
 --------------------------------------------------------

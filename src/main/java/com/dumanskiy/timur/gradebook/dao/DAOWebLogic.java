@@ -4,7 +4,6 @@ import com.dumanskiy.timur.gradebook.entity.*;
 import com.dumanskiy.timur.gradebook.entity.utils.*;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
@@ -21,9 +20,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
+
 @Component("dao")
 @Scope(value = "singleton")
 @PropertySource("classpath:resources.properties")
@@ -71,13 +69,16 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             File script = ResourceUtils.getFile("classpath:export.sql");
             ScriptRunner scriptRunner = new ScriptRunner(connection);
             scriptRunner.setDelimiter("/");
+            scriptRunner.setStopOnError(false);
             scriptRunner.setFullLineDelimiter(true);
+            scriptRunner.setSendFullScript(true);
             Reader reader = new BufferedReader(new FileReader(script));
             scriptRunner.runScript(reader);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
-        disconnect();
     }
     @Override
     public List<Subject> getSubjectsByTeacher(int teacherId) {
@@ -394,6 +395,119 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         disconnect();
         logger.debug("User: " + userInfo);
         return userInfo;
+    }
+
+    @Override
+    public Map<Integer, String> getRoles() {
+        connect();
+        Map<Integer, String> roles = new HashMap<>();
+        try {
+            logger.debug("Try to get all roles");
+            statement = connection.prepareStatement("SELECT * FROM LAB3_ROLES");
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                roles.put(resultSet.getInt(1), resultSet.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return roles;
+    }
+
+    @Override
+    public void createAdmin(String email, String password) {
+        connect();
+        try {
+            logger.debug("Try to add new admin (email = " + email + ")" );
+            statement = connection.prepareStatement("INSERT INTO LAB3_USERS_INFO " +
+                    "(EMAIL, PASSWORD, ROLENAME) VALUES (?, ?, 'ADMIN')");
+            statement.setString(1, email);
+            statement.setString(2, password);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+    @Override
+    public void createTeacher(String email, String password,
+                              String firstName, String lastName) {
+        connect();
+        try {
+            logger.debug("Try to add new teacher (email = " + email + ")" );
+            statement = connection.prepareStatement("INSERT INTO LAB3_USERS_INFO " +
+                    "(EMAIL, PASSWORD, FIRSTNAME, LASTNAME, ROLENAME) VALUES (?, ?, ?, ?, 'TEACHER')");
+            statement.setString(1, email);
+            statement.setString(2, password);
+            statement.setString(3, firstName);
+            statement.setString(4, lastName);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+    @Override
+    public void createStudent(String email, String password, String firstName,
+                              String lastName, int groupId, int roleId) {
+        Group group = getGroupByGroupId(groupId);
+        String role = getRoleById(roleId);
+        connect();
+        try {
+            logger.debug("Try to add new student (email = " + email + ")" );
+            statement = connection.prepareStatement("INSERT INTO LAB3_USERS_INFO " +
+                    "(EMAIL, PASSWORD, FIRSTNAME, LASTNAME, ROLENAME, GROUPNAME) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)");
+            statement.setString(1, email);
+            statement.setString(2, password);
+            statement.setString(3, firstName);
+            statement.setString(4, lastName);
+            statement.setString(5, role);
+            statement.setString(6, group.getGroupName());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+    @Override
+    public String getRoleById(int id) {
+        connect();
+        String role = "";
+        try {
+            statement = connection.prepareStatement("SELECT * FROM LAB3_ROLES WHERE ROLEID = ?");
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                role = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return role;
+    }
+
+    @Override
+    public int getRoleIdByRole(String role) {
+        connect();
+        int id = 0;
+        try {
+            statement = connection.prepareStatement("SELECT * FROM LAB3_ROLES WHERE ROLENAME = ?");
+            statement.setString(1, role);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return id;
     }
 
     @Override
