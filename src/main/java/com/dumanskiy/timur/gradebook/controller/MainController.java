@@ -82,8 +82,13 @@ public class MainController {
 
     @RequestMapping(value = "/student/group")
     public String  group() {
-        logger.info("Request to group");
+        logger.info("Request to group.jsp");
         return "group";
+    }
+    @RequestMapping(value = "/student/myMarks")
+    public String myMarks() {
+        logger.info("Request to myMarks.jsp");
+        return "myMarks";
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/admin")

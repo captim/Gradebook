@@ -26,8 +26,9 @@
     DAOWebLogic dao = context.getBean("dao", DAOWebLogic.class);
     logger.debug("DAOConnection was received");
     Principal user = request.getUserPrincipal();
-    int userId = dao.getGroupByUsername(user.getName()).getGroupId();
-    List<Subject> subjects = dao.getSubjectsByGroup(userId);
+    int userId = dao.getIdByUsername(user.getName());
+    int groupId = dao.getGroupByUsername(user.getName()).getGroupId();
+    List<Subject> subjects = dao.getSubjectsByGroup(groupId);
     int maxTopics = 0;
     for (Subject subject: subjects) {
         if (maxTopics < subject.getTopics().size()) {
@@ -39,15 +40,33 @@
         List<Mark> marks = dao.getMarks(subject.getId(), userId);
         MarkUtils.sortMarks(marks, maxTopics);
         allMarks.add(marks);
+        logger.debug("Received marks for " + subject.getName() + ": " + marks);
     }
 %>
     <table border="1px">
         <tr>
             <th>Subject</th>
-            <%for(Subject subject: subjects) {%>
-            <th><%=subject.getName()%></th>
+            <%for(int i = 0; i < maxTopics; i++) {%>
+            <th><%=i + 1%></th>
             <%}%>
         </tr>
+            <%for(int i = 0; i < subjects.size(); i++) {
+            Subject subject = subjects.get(i);%>
+        <tr>
+            <td><%=subject.getName()%></td>
+            <%for(int j = 0; j < allMarks.get(i).size(); j++) {
+                if(allMarks.get(i).get(j) == null) {%>
+                    <td><span></span></td>
+                <%} else {%>
+                    <td><%=allMarks.get(i).get(j).getValue()%></td>
+                <%}%>
+            <%}%>
+        </tr>
+            <%}%>
+
     </table>
+<div>
+    <a href="/GradebookLab3/cabinet">Go Back</a>
+</div>
 </body>
 </html>

@@ -27,6 +27,9 @@
             <%=dao.getGroupName(userInfo.getName())%>
         </a>
     </div>
+    <div>
+        <a href="student/myMarks">Marks</a>
+    </div>
 </security:authorize>
 <security:authorize access="hasRole('TEACHER')">
 <div>
