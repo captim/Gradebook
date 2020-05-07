@@ -595,3 +595,4 @@ SET DEFINE OFF
 Insert into LAB3_TEACHERS (USERID,FIRSTNAME,LASTNAME) values ('42','Stive','Jobs')
 /
 Insert into LAB3_TEACHERS (USERID,FIRSTNAME,LASTNAME) values ('1','John','Anderson')
+/
