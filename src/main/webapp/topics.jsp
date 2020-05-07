@@ -97,7 +97,7 @@
         <input type="button" value="Add" onclick="addTopic(<%=subject.getId()%>)">
     </form>
     <%
-        List<Group> groupsThatTeachSubject = dao.groupsThatTeachSubject(subject);
+        List<Group> groupsThatTeachSubject = dao.groupsThatLearnSubject(subject);
         if (groupsThatTeachSubject.isEmpty()) {
     %>
         <br/>No one is studying this subject

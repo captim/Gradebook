@@ -577,7 +577,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
     }
 
     @Override
-    public List<Group> groupsThatTeachSubject(Subject subject) {
+    public List<Group> groupsThatLearnSubject(Subject subject) {
         connect();
         List<Group> groups = new ArrayList<>();
         try {

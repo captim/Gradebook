@@ -7,7 +7,7 @@ import com.dumanskiy.timur.gradebook.entity.Subject;
 import java.util.List;
 
 public interface DAOGroupUtils {
-    List<Group> groupsThatTeachSubject(Subject subject);
+    List<Group> groupsThatLearnSubject(Subject subject);
     List<Group> getAllGroups();
     Group getGroupByGroupId(int groupId);
     Group getGroupByUsername(String username);
