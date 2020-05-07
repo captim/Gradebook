@@ -71,7 +71,6 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             scriptRunner.setDelimiter("/");
             scriptRunner.setStopOnError(false);
             scriptRunner.setFullLineDelimiter(true);
-            scriptRunner.setSendFullScript(true);
             Reader reader = new BufferedReader(new FileReader(script));
             scriptRunner.runScript(reader);
         } catch (FileNotFoundException | NullPointerException e) {
