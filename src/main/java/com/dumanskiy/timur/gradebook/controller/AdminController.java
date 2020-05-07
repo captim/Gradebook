@@ -34,10 +34,8 @@ public class AdminController {
 
     @RequestMapping("/createTeacher")
     @ResponseBody
-    public String createTeacher(@RequestParam String email,
-                                @RequestParam String password,
-                                @RequestParam String firstName,
-                                @RequestParam String lastName) {
+    public String createTeacher(@RequestParam String email, @RequestParam String password,
+                                @RequestParam String firstName, @RequestParam String lastName) {
         logger.debug("Redirected on /createTeacher");
         logger.debug("email = " + email);
         logger.debug("first name = " + firstName);
@@ -48,12 +46,9 @@ public class AdminController {
 
     @RequestMapping("/createStudent")
     @ResponseBody
-    public String createStudent(@RequestParam String email,
-                                @RequestParam String password,
-                                @RequestParam String firstName,
-                                @RequestParam String lastName,
-                                @RequestParam String groupId,
-                                @RequestParam String roleId) {
+    public String createStudent(@RequestParam String email, @RequestParam String password,
+                                @RequestParam String firstName, @RequestParam String lastName,
+                                @RequestParam String groupId, @RequestParam String roleId) {
         logger.debug("Redirected on /createStudent");
         logger.debug("email = " + email);
         logger.debug("first name = " + firstName);
