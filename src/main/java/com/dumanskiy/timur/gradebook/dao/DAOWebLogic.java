@@ -66,13 +66,14 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         dbCreated = true;
         try {
             logger.debug("Try to execute sql script");
-            File script = ResourceUtils.getFile("classpath:export.sql");
+            File creatingDB = ResourceUtils.getFile("classpath:creatingDB.sql");
+            File insert = ResourceUtils.getFile("classpath:insert.sql");
             ScriptRunner scriptRunner = new ScriptRunner(connection);
             scriptRunner.setDelimiter("/");
             scriptRunner.setStopOnError(false);
             scriptRunner.setFullLineDelimiter(true);
-            Reader reader = new BufferedReader(new FileReader(script));
-            scriptRunner.runScript(reader);
+            scriptRunner.runScript(new BufferedReader(new FileReader(creatingDB)));
+            scriptRunner.runScript(new BufferedReader(new FileReader(insert)));
         } catch (FileNotFoundException | NullPointerException e) {
             e.printStackTrace();
         } finally {
