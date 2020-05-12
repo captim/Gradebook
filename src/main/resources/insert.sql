@@ -12,6 +12,8 @@ Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('2','TEACHER')
 /
 Insert into LAB3_ROLES (ROLEID,ROLENAME) values ('3','STUDENT')
 /
+Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('3','admin','admin','1')
+/
 Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('68','alexander@gmail.com','123','21')
 /
 Insert into LAB3_REG_USERS (USERID,EMAIL,PASSWORD,ROLEID) values ('1','john2233@gmail.com','parolyaNet0','2')
