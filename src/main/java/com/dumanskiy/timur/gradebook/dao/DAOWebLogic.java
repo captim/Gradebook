@@ -50,14 +50,15 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         try {
             Context ctx = new InitialContext(env);
             ds = (DataSource) ctx.lookup(dataSourceName);
+            throw new NamingException();
         } catch (NamingException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         connection = null;
         try {
             connection = ds.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
     }
     @PostConstruct
@@ -78,7 +79,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             scriptRunner.runScript(new BufferedReader(new FileReader(creatingDB)));
             scriptRunner.runScript(new BufferedReader(new FileReader(insert)));
         } catch (FileNotFoundException | NullPointerException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         } finally {
             disconnect();
         }
@@ -95,7 +96,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             logger.debug("ResultSet was received");
             subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Subjects received(" + subjects + ")");
         disconnect();
@@ -119,7 +120,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Subjects received(" + subjects + ")");
         disconnect();
@@ -144,7 +145,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         for (Subject subject: subjects) {
@@ -168,7 +169,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             subjects = SubjectUtils.getSubjectsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         for (Subject subject: subjects) {
@@ -194,7 +195,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 result = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug("Result: " + result);
@@ -212,7 +213,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             subject = SubjectUtils.getSubjectsFromResultSet(resultSet).get(0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         subject.setTopics(getTopicsBySubjectId(subjectId));
@@ -232,7 +233,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             subject = SubjectUtils.getSubjectsFromResultSet(resultSet).get(0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         subject.setTopics(getTopicsBySubjectId(subject.getId()));
@@ -253,7 +254,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             marks = MarkUtils.getMarksFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug(marks);
@@ -273,7 +274,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             marks = MarkUtils.getMarksFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Marks: " + marks);
         disconnect();
@@ -293,7 +294,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 result = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return result;
@@ -309,7 +310,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setInt(3, value);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -324,7 +325,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setInt(3, topicId);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -340,7 +341,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             topics = TopicUtils.getTopicsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug(topics);
@@ -357,7 +358,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             userInfos = UserUtils.getInfoForAuth(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return userInfos;
@@ -375,7 +376,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet.next();
             id = resultSet.getInt(1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug("UserId = " + id);
@@ -393,7 +394,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             userInfo = UserUtils.getUserInfoFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug("User: " + userInfo);
@@ -412,7 +413,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 roles.put(resultSet.getInt(1), resultSet.getString(2));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return roles;
@@ -429,7 +430,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setString(2, password);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -448,7 +449,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setString(4, lastName);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -472,7 +473,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setString(6, group.getGroupName());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -489,7 +490,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 role = resultSet.getString(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return role;
@@ -507,7 +508,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 id = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return id;
@@ -522,7 +523,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Topic was deleted successfully");
         disconnect();
@@ -540,7 +541,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setString(3, topicName);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Topic was added");
         disconnect();
@@ -557,7 +558,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setInt(3, topic.getId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Topic was updated");
         disconnect();
@@ -573,7 +574,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setString(2, subjectName);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Subject was added");
         disconnect();
@@ -592,7 +593,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             groups = GroupUtils.getGroupsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         for (Group group: groups) {
@@ -612,7 +613,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             groups = GroupUtils.getGroupsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug("All groups: " + groups);
@@ -630,7 +631,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             group = GroupUtils.getGroupsFromResultSet(resultSet).get(0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug("Group: " + group);
@@ -651,7 +652,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             group = GroupUtils.getGroupsFromResultSet(resultSet).get(0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         group.setStudents(getStudentsByGroupId(group.getGroupId()));
@@ -672,7 +673,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 groupName = resultSet.getString(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         logger.debug("GroupName: " + groupName);
@@ -690,7 +691,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             result = StudentUtils.getStudentsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return result;
@@ -706,7 +707,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet = statement.executeQuery();
             result = StudentUtils.getStudentsFromResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return result;
@@ -722,7 +723,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setInt(2, subjectId);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -744,7 +745,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
                 result = false;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
         return result;
@@ -757,7 +758,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             statement.setInt(1, group.getGroupId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         disconnect();
     }
@@ -773,7 +774,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet.next();
             result = resultSet.getInt(1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         }
         logger.debug("Finded " + result + "topics");
         disconnect();
@@ -788,7 +789,7 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error: ", e);
         } catch (NullPointerException ignored) {
         }
     }
