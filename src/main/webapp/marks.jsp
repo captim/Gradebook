@@ -1,11 +1,10 @@
+<%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
+<%@ page import="com.dumanskiy.timur.gradebook.entity.*" %>
+<%@ page import="com.dumanskiy.timur.gradebook.entity.utils.CompareTopicsByIndex" %>
+<%@ page import="com.dumanskiy.timur.gradebook.entity.utils.MarkUtils" %>
 <%@ page import="org.apache.log4j.Logger" %>
-<%@ page import="com.dumanskiy.timur.gradebook.dao.DAOConnection" %>
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.utils.CompareTopicsByIndex" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.*" %>
-<%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.utils.MarkUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

@@ -1,9 +1,9 @@
-<%@ page import="org.apache.log4j.Logger" %>
-<%@ page import="java.security.Principal" %>
-<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.Group" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.Student" %><%--
+<%@ page import="com.dumanskiy.timur.gradebook.entity.Student" %>
+<%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
+<%@ page import="java.security.Principal" %><%--
   Created by IntelliJ IDEA.
   User: Tim
   Date: 30.04.2020

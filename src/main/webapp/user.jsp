@@ -1,10 +1,8 @@
-<%@ page import="java.security.Principal" %>
-<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
-<%@ page import="org.apache.log4j.Logger" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.UserInfo" %>
-<%@ page import="com.dumanskiy.timur.gradebook.entity.Group" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.Mark" %>
+<%@ page import="com.dumanskiy.timur.gradebook.entity.UserInfo" %>
+<%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="java.util.List" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 

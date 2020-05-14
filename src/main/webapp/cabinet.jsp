@@ -1,7 +1,7 @@
-<%@ page import="java.security.Principal" %>
-<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
 <%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
+<%@ page import="java.security.Principal" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

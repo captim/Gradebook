@@ -1,9 +1,9 @@
-<%@ page import="org.apache.log4j.Logger" %>
-<%@ page import="java.security.Principal" %>
-<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="com.dumanskiy.timur.gradebook.dao.DAOWebLogic" %>
 <%@ page import="com.dumanskiy.timur.gradebook.entity.Group" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
+<%@ page import="java.util.List" %>
+<%--
   Created by IntelliJ IDEA.
   User: Tim
   Date: 01.05.2020
