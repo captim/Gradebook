@@ -50,7 +50,6 @@ public class DAOWebLogic implements DAOConnection, DAOGroupUtils, DAOMarkUtils,
         try {
             Context ctx = new InitialContext(env);
             ds = (DataSource) ctx.lookup(dataSourceName);
-            throw new NamingException();
         } catch (NamingException e) {
             logger.error("Error: ", e);
         }
