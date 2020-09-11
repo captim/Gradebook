@@ -11,12 +11,12 @@ public class StudentUtils {
     public static List<Student> getStudentsFromResultSet(ResultSet resultSet) throws SQLException {
         List<Student> students = new ArrayList<>();
         while (resultSet.next()) {
-            Student student = new Student();
-            student.setUserId(resultSet.getInt(1));
-            student.setGroupId(resultSet.getInt(2));
-            student.setFirstName(resultSet.getString(3));
-            student.setLastName(resultSet.getString(4));
-            students.add(student);
+            Student student = Student.builder()
+                    .userId(resultSet.getInt(1))
+                    .groupId(resultSet.getInt(2))
+                    .firstName(resultSet.getString(3))
+                    .lastName(resultSet.getString(4))
+                    .build();
         }
         return students;
     }

@@ -58,4 +58,43 @@ public class Student {
                 ", groupId=" + groupId +
                 '}';
     }
+
+    public static StudentBuilder builder() {
+        return new StudentBuilder();
+    }
+
+    public static class StudentBuilder {
+
+        private int userId;
+        private String firstName;
+        private String lastName;
+        private int groupId;
+
+        private StudentBuilder() {
+
+        }
+
+        public StudentBuilder userId(int userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public StudentBuilder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public StudentBuilder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public StudentBuilder groupId(int groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+        public Student build() {
+            return new Student(userId, firstName, lastName, groupId);
+        }
+    }
 }
