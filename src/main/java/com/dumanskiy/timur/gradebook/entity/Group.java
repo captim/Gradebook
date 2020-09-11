@@ -1,5 +1,6 @@
 package com.dumanskiy.timur.gradebook.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,9 @@ public class Group {
         this.groupName = groupName;
     }
 
+    public static GroupBuilder builder() {
+        return new GroupBuilder();
+    }
     @Override
     public String toString() {
         return "Group{" +
@@ -64,5 +68,34 @@ public class Group {
     @Override
     public int hashCode() {
         return Objects.hash(groupId, groupName, students);
+    }
+
+    public static class GroupBuilder {
+        private int groupId;
+        private String groupName;
+        private List<Student> students;
+
+        private GroupBuilder() {
+            students = new ArrayList<>();
+        }
+
+        public GroupBuilder groupId(int groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
+        public GroupBuilder groupName(String groupName) {
+            this.groupName = groupName;
+            return this;
+        }
+
+        public GroupBuilder addStudent(Student student) {
+            students.add(student);
+            return this;
+        }
+
+        public Group build() {
+            return new Group(groupId, groupName, students);
+        }
     }
 }
