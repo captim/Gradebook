@@ -46,9 +46,11 @@ public class Mark {
     public void setIndexInSubject(int indexInSubject) {
         this.indexInSubject = indexInSubject;
     }
+
     public Mark() {
         super();
     }
+
     public Mark(int id, int value, int topicId, int studentId, int indexInSubject) {
         this.id = id;
         this.value = value;
@@ -66,5 +68,48 @@ public class Mark {
                 ", studentId=" + studentId +
                 ", indexInSubject=" + indexInSubject +
                 '}';
+    }
+
+    public static MarkBuilder builder() {
+        return new MarkBuilder();
+    }
+    public static class MarkBuilder {
+        private int id;
+        private int value;
+        private int topicId;
+        private int studentId;
+        private int indexInSubject;
+
+        private MarkBuilder() {
+
+        }
+
+        public MarkBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public MarkBuilder value(int value) {
+            this.value = value;
+            return this;
+        }
+
+        public MarkBuilder topicId(int topicId) {
+            this.topicId = topicId;
+            return this;
+        }
+
+        public MarkBuilder studentId(int studentId) {
+            this.studentId = studentId;
+            return this;
+        }
+
+        public MarkBuilder indexInSubject(int indexInSubject) {
+            this.indexInSubject = indexInSubject;
+            return this;
+        }
+        public Mark build() {
+            return new Mark(id, value, topicId, studentId, indexInSubject);
+        }
     }
 }

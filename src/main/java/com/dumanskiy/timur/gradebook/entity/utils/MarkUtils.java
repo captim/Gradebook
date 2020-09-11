@@ -13,12 +13,13 @@ public class MarkUtils {
     public static List<Mark> getMarksFromResultSet(ResultSet resultSet) throws SQLException {
         List<Mark> marks = new ArrayList<>();
         while (resultSet.next()) {
-            Mark mark = new Mark();
-            mark.setId(resultSet.getInt(1));
-            mark.setTopicId(resultSet.getInt(2));
-            mark.setStudentId(resultSet.getInt(3));
-            mark.setValue(resultSet.getInt(4));
-            mark.setIndexInSubject(resultSet.getInt(5));
+            Mark mark = Mark.builder()
+                    .id(resultSet.getInt(1))
+                    .topicId(resultSet.getInt(2))
+                    .studentId(resultSet.getInt(3))
+                    .value(resultSet.getInt(4))
+                    .indexInSubject(resultSet.getInt(5))
+                    .build();
             marks.add(mark);
         }
         logger.debug("Received marks from resultSet");
