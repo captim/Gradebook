@@ -14,9 +14,10 @@ public class SubjectUtils {
         List<Subject> subjects = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                Subject subject = new Subject();
-                subject.setName(resultSet.getString("SUBJECTNAME"));
-                subject.setId(resultSet.getInt("SUBJECTID"));
+                Subject subject = Subject.builder()
+                        .id(resultSet.getInt("SUBJECTID"))
+                        .name(resultSet.getString("SUBJECTNAME"))
+                        .build();
                 subjects.add(subject);
             }
         } catch (SQLException e) {
@@ -26,11 +27,10 @@ public class SubjectUtils {
         return subjects;
     }
     public static Subject getSubjectById(List<Subject> subjects, int id) {
-        for (Subject subject: subjects) {
-            if (subject.getId() == id) {
-                return subject;
-            }
+        try {
+            return subjects.stream().filter(x -> x.getId() == id).iterator().next();
+        } catch (Exception ex) {
+            throw new IllegalStateException("There is not subject with id = " + id);
         }
-        throw new IllegalStateException("There is not subject with id = " + id);
     }
 }
