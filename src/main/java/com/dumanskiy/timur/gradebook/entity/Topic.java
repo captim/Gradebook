@@ -5,6 +5,16 @@ public class Topic {
     private int index;
     private String name;
 
+    public Topic() {
+
+    }
+
+    public Topic(int id, int index, String name) {
+        this.id = id;
+        this.index = index;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
@@ -29,6 +39,9 @@ public class Topic {
         this.name = name;
     }
 
+    public static TopicBuilder builder() {
+        return new TopicBuilder();
+    }
     @Override
     public String toString() {
         return "Topic{" +
@@ -36,5 +49,34 @@ public class Topic {
                 ", index=" + index +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static class TopicBuilder {
+        private int id;
+        private int index;
+        private String name;
+
+        private TopicBuilder() {
+
+        }
+
+        public TopicBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public TopicBuilder index(int index) {
+            this.index = index;
+            return this;
+        }
+
+        public TopicBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Topic build() {
+            return new Topic(id, index, name);
+        }
     }
 }

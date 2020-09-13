@@ -12,10 +12,11 @@ public class TopicUtils {
         List<Topic> topics = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                Topic topic = new Topic();
-                topic.setId(resultSet.getInt("TOPICID"));
-                topic.setIndex(resultSet.getInt("INDEXNUMBER"));
-                topic.setName(resultSet.getString("TOPICNAME"));
+                Topic topic = Topic.builder()
+                        .id(resultSet.getInt("TOPICID"))
+                        .index(resultSet.getInt("INDEXNUMBER"))
+                        .name(resultSet.getString("TOPICNAME"))
+                        .build();
                 topics.add(topic);
             }
         } catch (SQLException e) {
