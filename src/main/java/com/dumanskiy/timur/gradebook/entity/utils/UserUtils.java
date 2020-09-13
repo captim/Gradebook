@@ -14,24 +14,24 @@ public class UserUtils {
         logger.debug("Try to get info for authentication from resultSet");
         List<UserInfo> userInfos = new ArrayList<>();
         while (resultSet.next()) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUsername(resultSet.getString("EMAIL"));
-            userInfo.setPassword(resultSet.getString("PASSWORD"));
-            userInfo.setRole(resultSet.getString("ROLENAME"));
-            userInfos.add(userInfo);
+            userInfos.add(UserInfo.builder()
+                    .username(resultSet.getString("EMAIL"))
+                    .password(resultSet.getString("PASSWORD"))
+                    .role(resultSet.getString("ROLENAME"))
+                    .build());
         }
         return userInfos;
     }
     public static UserInfo getUserInfoFromResultSet(ResultSet resultSet) throws SQLException {
         logger.debug("Try to get userInfo from resultSet");
         if (resultSet.next()) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setId(resultSet.getInt("ID"));
-            userInfo.setUsername(resultSet.getString("EMAIL"));
-            userInfo.setRole(resultSet.getString("ROLENAME"));
-            userInfo.setFirstName(resultSet.getString("LASTNAME"));
-            userInfo.setLastName(resultSet.getString("FIRSTNAME"));
-            return userInfo;
+            return UserInfo.builder()
+                    .id(resultSet.getInt("ID"))
+                    .username(resultSet.getString("EMAIL"))
+                    .role(resultSet.getString("ROLENAME"))
+                    .firstName(resultSet.getString("FIRSTNAME"))
+                    .lastName(resultSet.getString("LASTNAME"))
+                    .build();
         }
         return null;
     }
